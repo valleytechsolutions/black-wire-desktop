@@ -46,6 +46,8 @@ The power desk includes **13 sourced profiles and 22 published operating observa
 
 Check [Releases](https://github.com/valleytechsolutions/black-wire-desktop/releases) for the actual available assets and validation status. An absent platform asset means that platform has not been released.
 
+**Available now: [Windows x64 workshop preview 0.1.2](https://github.com/valleytechsolutions/black-wire-desktop/releases/tag/v0.1.2).** Linux and macOS build targets are provided, but verified downloads for those systems have not been published. For images and PDFs without an application, use the separate [pinout collection releases](https://github.com/valleytechsolutions/black-wire-pinouts/releases); those ZIP files can be read on all three operating systems.
+
 | Platform | Current status |
 |---|---|
 | Windows x64 | Native app tested; 0.1.2 installer built and packaged app tested. Installation on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
