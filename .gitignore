@@ -22,3 +22,7 @@ black-wire-pinouts/
 
 web-release/
 .wrangler/
+public/licenses/
+**/workbench.json
+Black-Wire-workbench*.json
+*.log

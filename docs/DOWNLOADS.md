@@ -19,7 +19,7 @@ macOS distribution requires Developer ID signing and Apple notarization. A local
 Compare the downloaded file's SHA-256 to the `SHA256SUMS.txt` attached to the **same release**:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath '.\Black-Wire-0.1.1-windows-x64-setup.exe'
+Get-FileHash -Algorithm SHA256 -LiteralPath '.\Black-Wire-0.1.2-windows-x64-setup.exe'
 ```
 
 ```sh

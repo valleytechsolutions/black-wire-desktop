@@ -48,7 +48,7 @@ Check [Releases](https://github.com/valleytechsolutions/black-wire-desktop/relea
 
 | Platform | Current status |
 |---|---|
-| Windows x64 | Native app tested; 0.1.1 installer built and packaged app tested. Installation on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
+| Windows x64 | Native app tested; 0.1.2 installer built and packaged app tested. Installation on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
 | Linux x64 / ARM64 | Packaging supported; native launch validation remains outstanding. |
 | macOS Intel / Apple Silicon | Build targets provided; a Mac, Developer ID signing and notarization are needed for a distributable release. No verified Mac binary is claimed. |
 
@@ -73,7 +73,7 @@ See [Build and development](docs/BUILDING.md), [Workbench guide](docs/WORKBENCH.
 
 ## Attribution and project status
 
-Original board artwork belongs to its credited authors/manufacturers. This application does not claim ownership or grant new permissions over those references. See the collection's [per-asset ledger](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/catalog/attributions.csv) before reuse. The original application source is published for inspection; an open-source license has not yet been selected. See [LICENSE.md](LICENSE.md).
+Original board artwork belongs to its credited authors/manufacturers. This application does not claim ownership or grant new permissions over those references. See the collection's [per-asset ledger](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/catalog/attributions.csv) before reuse. **Original app code: [MIT](LICENSE)** — reuse and modify, including commercially, while retaining the copyright and permission notice. **Original guide material: CC BY 4.0** — reuse with attribution, a license link and a note of changes. See [license scope](LICENSING.md), [creator credit](NOTICE.md) and [privacy](PRIVACY.md). These licenses do not relicense manufacturer diagrams.
 
 The workshop preview is the starting point for a lasting maker reference. A wiki and annual print editions are future projects, with separate completeness, rights and print-quality reviews.
 

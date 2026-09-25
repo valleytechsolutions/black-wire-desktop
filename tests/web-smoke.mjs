@@ -34,6 +34,11 @@ try{
  await page.getByRole('button',{name:'Next page'}).click();await expect(page.getByRole('status')).toHaveText('Page 2 of 7');
  await page.keyboard.press('Escape');await page.getByRole('button',{name:'Power desk',exact:false}).first().click();
  await expect(page.getByRole('heading',{name:'Voltage & current reference'})).toBeVisible();
+ await page.getByRole('button',{name:'About the guide',exact:true}).click();
+ await page.getByText('Original application code — MIT',{exact:true}).click();
+ await expect(page.locator('.license-notices pre').first()).toContainText('Copyright (c) 2026 Kal (Your Pal Kal) / Valleytech Solutions');
+ await page.getByText('Original guide material — CC BY 4.0',{exact:true}).click();
+ await expect(page.locator('.license-notices pre').nth(1)).toContainText('Creative Commons Attribution 4.0 International Public License');
  await page.route('**/embed-test',route=>route.fulfill({contentType:'text/html',body:`<h1>Store page integration test</h1><iframe title="BWM guide" src="${url}" style="width:100%;height:900px" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox"></iframe>`}));
  await page.goto('http://127.0.0.1:5187/embed-test');const frame=page.frameLocator('iframe');
  await expect(frame.getByRole('heading',{name:/Know your board/})).toBeVisible();await frame.getByRole('textbox',{name:'Search boards and references'}).fill('ESP32-C5');await expect(frame.locator('.board-card').first()).toBeVisible();

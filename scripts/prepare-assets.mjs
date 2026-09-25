@@ -16,3 +16,10 @@ for(const name of ['react','react-dom','lucide-react','pdfjs-dist']){
  notices+=`${name} ${meta.version}\n${'='.repeat(50)}\n${license}\n\n`;
 }
 await fs.writeFile('public/THIRD_PARTY_NOTICES.txt',notices);
+await fs.mkdir('public/licenses',{recursive:true});
+for(const [source,destination] of [
+ ['LICENSE','MIT.txt'],['LICENSES/CC-BY-4.0.txt','CC-BY-4.0.txt'],
+ ['NOTICE.md','NOTICE.md'],['LICENSING.md','LICENSING.md'],
+ ['public/THIRD_PARTY_NOTICES.txt','THIRD_PARTY_NOTICES.txt']
+])await fs.copyFile(source,path.join('public/licenses',destination));
+console.log('Original-work licenses and attribution notices ready.');

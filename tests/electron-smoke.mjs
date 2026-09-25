@@ -49,6 +49,12 @@ try{
  await page.screenshot({path:path.join(qa,'native-pdf.png')});
  await page.keyboard.press('Escape');await page.getByRole('button',{name:'Black Wire home'}).click();
  await page.screenshot({path:path.join(qa,'native-library.png')});
+ await page.getByRole('button',{name:'About the guide',exact:true}).click();
+ await page.getByText('Original application code — MIT',{exact:true}).click();
+ await expect(page.locator('.license-notices pre').first()).toContainText('Copyright (c) 2026 Kal (Your Pal Kal) / Valleytech Solutions');
+ await page.getByText('Original guide material — CC BY 4.0',{exact:true}).click();
+ await expect(page.locator('.license-notices pre').nth(1)).toContainText('Creative Commons Attribution 4.0 International Public License');
+ await page.screenshot({path:path.join(qa,'native-licenses.png')});
  expect(errors).toEqual([]);
  const report={packaged,catalog:catalog.stats,pdf:pdfBoard.name,checks:['custom protocol','renderer isolation','PDF delivery','offline image decoding','path whitelist','native save original hash','saved boards persistence','PDF viewer'],qa,passed:true};
  await fs.writeFile(path.join(qa,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

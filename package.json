@@ -1,7 +1,7 @@
 {
   "name": "black-wire-technical-reference-guide",
   "productName": "Black Wire Technical Reference Guide",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An offline workbench for board pinouts, manufacturer references and power data.",
   "author": {
     "name": "Kal / Valleytech Solutions",
@@ -101,5 +101,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/valleytechsolutions/black-wire-desktop.git"
-  }
+  },
+  "license": "MIT"
 }

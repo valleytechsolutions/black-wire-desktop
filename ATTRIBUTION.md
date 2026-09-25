@@ -9,3 +9,5 @@
 **Software:** Electron (MIT), React / React DOM (MIT), Lucide (ISC), Mozilla PDF.js (Apache-2.0), Vite (MIT), electron-builder (MIT), sharp (Apache-2.0), Playwright (Apache-2.0) and their dependencies. Pinned versions are in package.json / pnpm-lock.yaml. `scripts/prepare-assets.mjs` includes renderer notices and PDF.js resource licenses in the application; Electron's packaged LICENSE and LICENSES.chromium.html cover its bundled runtime components. Upstream license files remain authoritative.
 
 The per-asset collection rights notes and third-party software licenses are separate from the original application's licensing status.
+
+Original Black Wire contributions are openly licensed within the scope in [LICENSING.md](LICENSING.md). Preserve the creator credit in [NOTICE.md](NOTICE.md) as required by the applicable license, in addition to each source creator's credit.
