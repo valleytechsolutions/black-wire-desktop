@@ -1,0 +1,70 @@
+name: Build unsigned workshop previews
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: win
+            arch: x64
+          - os: ubuntu-latest
+            target: linux
+            arch: x64
+          - os: macos-latest
+            target: mac
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      ELECTRON_BUILDER_COMPRESSION_LEVEL: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Read pinned collection revision
+        id: library
+        shell: bash
+        run: node -e "const fs=require('fs'); const r=require('./data/library-source.json'); if(!/^[a-f0-9]{40}$/.test(r.commit))throw Error('Unpinned collection'); fs.appendFileSync(process.env.GITHUB_OUTPUT,'commit='+r.commit+'\n')"
+      - uses: actions/checkout@v7
+        with:
+          repository: valleytechsolutions/black-wire-pinouts
+          ref: ${{ steps.library.outputs.commit }}
+          path: black-wire-pinouts
+          persist-credentials: false
+      - run: npm install --global pnpm@11.19.0
+      - run: pnpm install --frozen-lockfile
+      - run: node node_modules/electron/install.js
+      - run: pnpm library:import
+        env:
+          BLACKWIRE_LIBRARY_ROOT: black-wire-pinouts/library
+      - run: node scripts/verify-library.mjs
+      - run: pnpm test
+      - run: pnpm build
+      - name: Package unsigned preview
+        shell: bash
+        run: pnpm exec electron-builder --${{ matrix.target }} --${{ matrix.arch }} --publish never
+      - name: Native Windows app check
+        if: runner.os == 'Windows'
+        run: node tests/electron-smoke.mjs --packaged
+      - name: Save preview artifacts for manual validation
+        uses: actions/upload-artifact@v7
+        with:
+          name: unsigned-preview-${{ matrix.target }}-${{ matrix.arch }}
+          compression-level: 0
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            release/*.exe
+            release/*.AppImage
+            release/*.tar.gz
+            release/*.dmg
+            release/*.zip

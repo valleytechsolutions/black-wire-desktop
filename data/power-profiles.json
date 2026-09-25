@@ -1,0 +1,623 @@
+[
+  {
+    "id": "pico",
+    "name": "Raspberry Pi Pico",
+    "brand": "Raspberry Pi",
+    "boardIds": [
+      "raspberry-pi-rp2040-pico"
+    ],
+    "revision": "Original board described by the linked datasheet",
+    "logic": "3.3 V GPIO",
+    "input": "VSYS (pin 39) + GND",
+    "voltageMin": 1.8,
+    "voltageMax": 5.5,
+    "nominal": 5,
+    "rangeKind": "Allowed VSYS input",
+    "supplyCurrentA": null,
+    "currentMeaning": "Supply current depends on firmware and peripherals; no universal minimum collected.",
+    "connector": "Header: VSYS and GND",
+    "sources": [
+      {
+        "title": "Raspberry Pi Pico datasheet",
+        "url": "https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf",
+        "section": "Powering Pico; §3.1.1 Table 1 (printed p.12)",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "USB VBUS is a separate 5 V input. Do not apply this VSYS range to a GPIO pin. Multiple supplies need the documented power-path arrangement.",
+    "observations": [
+      {
+        "kind": "Published measurement",
+        "voltage": 5,
+        "currentMa": 86.5,
+        "peakMa": 91.6,
+        "condition": "Popcorn video demo with VGA/SD/I2S expansion, regulator power-save on, 25 °C. Mean of three Pico samples; peak is the reported mean of maxima during white video.",
+        "caveat": "Includes the expansion board. Scenario results are not guaranteed maxima or a supply-current requirement.",
+        "source": 0
+      }
+    ]
+  },
+  {
+    "id": "pico2",
+    "name": "Raspberry Pi Pico 2",
+    "brand": "Raspberry Pi",
+    "boardIds": [
+      "raspberry-pi-rp2350-pico-2"
+    ],
+    "revision": "Original board described by the linked datasheet",
+    "logic": "3.3 V GPIO",
+    "input": "VSYS (pin 39) + GND",
+    "voltageMin": 1.8,
+    "voltageMax": 5.5,
+    "nominal": 5,
+    "rangeKind": "Allowed VSYS input",
+    "supplyCurrentA": null,
+    "currentMeaning": "Supply current depends on firmware and peripherals; no universal minimum collected.",
+    "connector": "Header: VSYS and GND",
+    "sources": [
+      {
+        "title": "Raspberry Pi Pico 2 datasheet",
+        "url": "https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf",
+        "section": "VSYS / operating conditions, printed pp.9,12,15",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "USB VBUS is a separate 5 V input. Do not apply this VSYS range to a GPIO pin. Multiple supplies need the documented power-path arrangement.",
+    "observations": []
+  },
+  {
+    "id": "uno-r3",
+    "name": "Arduino UNO R3",
+    "brand": "Arduino",
+    "boardIds": [
+      "arduino-other-uno-r3"
+    ],
+    "revision": "UNO Rev3 / ATmega328P",
+    "logic": "5 V GPIO",
+    "input": "DC barrel jack or VIN + GND",
+    "voltageMin": 7,
+    "voltageMax": 12,
+    "nominal": 9,
+    "rangeKind": "Recommended external input",
+    "supplyCurrentA": null,
+    "currentMeaning": "No whole-board supply-current requirement collected; 20 mA I/O and 50 mA 3V3 ratings are outputs, not supply demand.",
+    "connector": "2.1 mm centre-positive barrel plug, or VIN/GND header",
+    "sources": [
+      {
+        "title": "Arduino UNO Rev3 technical specifications",
+        "url": "https://store.arduino.cc/products/arduino-uno-rev3",
+        "section": "Tech specs and Power",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "Use the recommended 7–12 V range. The published 6–20 V limit is not the recommended range; regulator heating increases with voltage and load. USB is a separate 5 V input.",
+    "observations": []
+  },
+  {
+    "id": "pi5",
+    "name": "Raspberry Pi 5",
+    "brand": "Raspberry Pi",
+    "boardIds": [
+      "raspberry-pi-raspberry-pi-sbc-5"
+    ],
+    "revision": "Exact model named; peripheral load changes consumption",
+    "logic": "3.3 V GPIO",
+    "input": "USB-C, 5 V / 5 A USB-PD mode",
+    "voltageMin": null,
+    "voltageMax": null,
+    "nominal": 5,
+    "rangeKind": "Nominal voltage at the plug; tolerance not recorded",
+    "supplyCurrentA": 5,
+    "currentMeaning": "Manufacturer-recommended supply capacity; not the current continuously consumed.",
+    "connector": "USB-C, 5 V / 5 A USB-PD mode",
+    "sources": [
+      {
+        "title": "Raspberry Pi power-supply recommendations",
+        "url": "https://www.raspberrypi.com/documentation/computers/getting-started.html",
+        "section": "Recommended power supply",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "Raspberry Pi hardware power tables",
+        "url": "https://www.raspberrypi.com/documentation/hardware/rf/",
+        "section": "Typical bare-board active current consumption",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "A 5 V / 3 A supply limits USB peripherals to 600 mA. The 5 A mode requires compatible USB-PD negotiation and cable. Do not substitute a higher-voltage PD mode.",
+    "observations": [
+      {
+        "kind": "Manufacturer typical",
+        "voltage": null,
+        "currentMa": 800,
+        "peakMa": null,
+        "condition": "Typical bare-board active current. Detailed workload, test voltage and peak/transient behavior are not stated in the table.",
+        "caveat": "This is not a worst-case current or a smaller supply recommendation.",
+        "source": 1
+      }
+    ]
+  },
+  {
+    "id": "pi4",
+    "name": "Raspberry Pi 4 Model B",
+    "brand": "Raspberry Pi",
+    "boardIds": [
+      "raspberry-pi-raspberry-pi-sbc-4-model-b",
+      "raspberry-pi-raspberry-pi-sbc-pi-4-model-b"
+    ],
+    "revision": "Exact model named; peripheral load changes consumption",
+    "logic": "3.3 V GPIO",
+    "input": "USB-C power input",
+    "voltageMin": null,
+    "voltageMax": null,
+    "nominal": 5,
+    "rangeKind": "Nominal voltage at the plug; tolerance not recorded",
+    "supplyCurrentA": 3,
+    "currentMeaning": "Manufacturer-recommended supply capacity; not the current continuously consumed.",
+    "connector": "USB-C power input",
+    "sources": [
+      {
+        "title": "Raspberry Pi power-supply recommendations",
+        "url": "https://www.raspberrypi.com/documentation/computers/getting-started.html",
+        "section": "Recommended power supply",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "Raspberry Pi hardware power tables",
+        "url": "https://www.raspberrypi.com/documentation/hardware/rf/",
+        "section": "Typical bare-board active current consumption",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "The source recommends a supply rating for reliable operation with peripherals. Check cable voltage drop. Input-voltage tolerance has not been recorded in this chart.",
+    "observations": [
+      {
+        "kind": "Manufacturer typical",
+        "voltage": null,
+        "currentMa": 600,
+        "peakMa": null,
+        "condition": "Typical bare-board active current. Detailed workload, test voltage and peak/transient behavior are not stated in the table.",
+        "caveat": "This is not a worst-case current or a smaller supply recommendation.",
+        "source": 1
+      }
+    ]
+  },
+  {
+    "id": "pi3b",
+    "name": "Raspberry Pi 3 Model B+",
+    "brand": "Raspberry Pi",
+    "boardIds": [
+      "raspberry-pi-raspberry-pi-sbc-3-model-b"
+    ],
+    "revision": "Exact model named; peripheral load changes consumption",
+    "logic": "3.3 V GPIO",
+    "input": "Micro-USB power input",
+    "voltageMin": null,
+    "voltageMax": null,
+    "nominal": 5,
+    "rangeKind": "Nominal voltage at the plug; tolerance not recorded",
+    "supplyCurrentA": 2.5,
+    "currentMeaning": "Manufacturer-recommended supply capacity; not the current continuously consumed.",
+    "connector": "Micro-USB power input",
+    "sources": [
+      {
+        "title": "Raspberry Pi power-supply recommendations",
+        "url": "https://www.raspberrypi.com/documentation/computers/getting-started.html",
+        "section": "Recommended power supply",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "Raspberry Pi hardware power tables",
+        "url": "https://www.raspberrypi.com/documentation/hardware/rf/",
+        "section": "Typical bare-board active current consumption",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "The source recommends a supply rating for reliable operation with peripherals. Check cable voltage drop. Input-voltage tolerance has not been recorded in this chart.",
+    "observations": [
+      {
+        "kind": "Manufacturer typical",
+        "voltage": null,
+        "currentMa": 500,
+        "peakMa": null,
+        "condition": "Typical bare-board active current. Detailed workload, test voltage and peak/transient behavior are not stated in the table.",
+        "caveat": "This is not a worst-case current or a smaller supply recommendation.",
+        "source": 1
+      }
+    ]
+  },
+  {
+    "id": "zero2",
+    "name": "Raspberry Pi Zero 2 W",
+    "brand": "Raspberry Pi",
+    "boardIds": [
+      "raspberry-pi-raspberry-pi-sbc-zero-2-w"
+    ],
+    "revision": "Exact model named; peripheral load changes consumption",
+    "logic": "3.3 V GPIO",
+    "input": "Micro-USB PWR IN",
+    "voltageMin": null,
+    "voltageMax": null,
+    "nominal": 5,
+    "rangeKind": "Nominal voltage at the plug; tolerance not recorded",
+    "supplyCurrentA": 2.5,
+    "currentMeaning": "Manufacturer-recommended supply capacity; not the current continuously consumed.",
+    "connector": "Micro-USB PWR IN",
+    "sources": [
+      {
+        "title": "Raspberry Pi power-supply recommendations",
+        "url": "https://www.raspberrypi.com/documentation/computers/getting-started.html",
+        "section": "Recommended power supply",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "Raspberry Pi hardware power tables",
+        "url": "https://www.raspberrypi.com/documentation/hardware/rf/",
+        "section": "Typical bare-board active current consumption",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "The source recommends a supply rating for reliable operation with peripherals. Check cable voltage drop. Input-voltage tolerance has not been recorded in this chart.",
+    "observations": [
+      {
+        "kind": "Manufacturer typical",
+        "voltage": null,
+        "currentMa": 350,
+        "peakMa": null,
+        "condition": "Typical bare-board active current. Detailed workload, test voltage and peak/transient behavior are not stated in the table.",
+        "caveat": "This is not a worst-case current or a smaller supply recommendation.",
+        "source": 1
+      }
+    ]
+  },
+  {
+    "id": "teensy40",
+    "name": "Teensy 4.0",
+    "brand": "PJRC",
+    "boardIds": [
+      "pjrc-teensy-teensy-4-0"
+    ],
+    "revision": "Teensy 4.0",
+    "logic": "3.3 V GPIO; not 5 V tolerant",
+    "input": "VIN + GND",
+    "voltageMin": 3.6,
+    "voltageMax": 5.5,
+    "nominal": 5,
+    "rangeKind": "VIN range printed on reference card",
+    "supplyCurrentA": null,
+    "currentMeaning": "Add peripheral load and transient margin; no whole-board minimum collected.",
+    "connector": "VIN/GND header; USB VUSB is connected to VIN by default",
+    "sources": [
+      {
+        "title": "PJRC Teensy 4.0 pinout card",
+        "url": "https://www.pjrc.com/teensy/card10a_rev2_web.pdf",
+        "section": "VIN label",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "PJRC Teensy 4.0 product documentation",
+        "url": "https://www.pjrc.com/store/teensy40.html",
+        "section": "Power",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "Do not apply external VIN while USB power is connected unless the documented VUSB/VIN isolation is implemented. The 3.3 V pin is a regulated output; its rating is not board consumption.",
+    "observations": [
+      {
+        "kind": "Manufacturer typical",
+        "voltage": null,
+        "currentMa": 100,
+        "peakMa": null,
+        "condition": "Approximate consumption at 600 MHz. Input voltage and peripheral load are not fully specified.",
+        "caveat": "Approximate operating figure, not guaranteed peak or minimum supply capacity.",
+        "source": 1
+      }
+    ]
+  },
+  {
+    "id": "teensy41",
+    "name": "Teensy 4.1",
+    "brand": "PJRC",
+    "boardIds": [
+      "pjrc-teensy-teensy-4-1"
+    ],
+    "revision": "Teensy 4.1",
+    "logic": "3.3 V GPIO; not 5 V tolerant",
+    "input": "VIN + GND",
+    "voltageMin": 3.6,
+    "voltageMax": 5.5,
+    "nominal": 5,
+    "rangeKind": "VIN range printed on reference card",
+    "supplyCurrentA": null,
+    "currentMeaning": "Add peripheral load and transient margin; no whole-board minimum collected.",
+    "connector": "VIN/GND header; USB VUSB is connected to VIN by default",
+    "sources": [
+      {
+        "title": "PJRC Teensy 4.1 pinout card",
+        "url": "https://www.pjrc.com/teensy/card11a_rev4_web.pdf",
+        "section": "VIN label",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "PJRC Teensy 4.1 product documentation",
+        "url": "https://www.pjrc.com/store/teensy41.html",
+        "section": "Power",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "Do not apply external VIN while USB power is connected unless the documented VUSB/VIN isolation is implemented. The 3.3 V pin is a regulated output; its rating is not board consumption.",
+    "observations": []
+  },
+  {
+    "id": "teensy20",
+    "name": "Teensy 2.0",
+    "brand": "PJRC",
+    "boardIds": [
+      "pjrc-teensy-teensy-2-0"
+    ],
+    "revision": "Teensy 2.0 AVR board",
+    "logic": "Depends on board supply configuration",
+    "input": "VCC / +5 V and GND at 16 MHz with USB",
+    "voltageMin": 4.5,
+    "voltageMax": 5.5,
+    "nominal": 5,
+    "rangeKind": "Recommended for 16 MHz with USB",
+    "supplyCurrentA": null,
+    "currentMeaning": "Published tests are operating examples, not a guaranteed maximum.",
+    "connector": "VCC / +5 V header and GND",
+    "sources": [
+      {
+        "title": "PJRC external power recommendations",
+        "url": "https://www.pjrc.com/teensy/external_power.html",
+        "section": "Recommended operating parameters",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "PJRC measured low-power table",
+        "url": "https://www.pjrc.com/teensy/low_power.html",
+        "section": "Typical current consumed by Teensy",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "These values apply to the AVR Teensy 2.0 family, not newer Teensy models. Isolate USB power when supplying external VCC.",
+    "observations": [
+      {
+        "kind": "Published measurement",
+        "voltage": 5,
+        "currentMa": 27.3,
+        "peakMa": null,
+        "condition": "16 MHz, USB on, running 100%; idle and sleep 0%.",
+        "caveat": "Manufacturer typical result for the stated configuration.",
+        "source": 1
+      },
+      {
+        "kind": "Published measurement",
+        "voltage": 5,
+        "currentMa": 17.9,
+        "peakMa": null,
+        "condition": "8 MHz, USB on, running 100%; idle and sleep 0%.",
+        "caveat": "Manufacturer typical result for the stated configuration.",
+        "source": 1
+      },
+      {
+        "kind": "Published measurement",
+        "voltage": 5,
+        "currentMa": 0.04,
+        "peakMa": null,
+        "condition": "Clock off, USB off, sleep 100%.",
+        "caveat": "Sleep consumption is not the current needed during startup or active use.",
+        "source": 1
+      }
+    ]
+  },
+  {
+    "id": "teensypp20",
+    "name": "Teensy++ 2.0",
+    "brand": "PJRC",
+    "boardIds": [
+      "pjrc-teensy-teensy-plus-plus-2-0"
+    ],
+    "revision": "Teensy++ 2.0 AVR board",
+    "logic": "Depends on board supply configuration",
+    "input": "VCC / +5 V and GND at 16 MHz with USB",
+    "voltageMin": 4.5,
+    "voltageMax": 5.5,
+    "nominal": 5,
+    "rangeKind": "Recommended for 16 MHz with USB",
+    "supplyCurrentA": null,
+    "currentMeaning": "Published tests are operating examples, not a guaranteed maximum.",
+    "connector": "VCC / +5 V header and GND",
+    "sources": [
+      {
+        "title": "PJRC external power recommendations",
+        "url": "https://www.pjrc.com/teensy/external_power.html",
+        "section": "Recommended operating parameters",
+        "checked": "2026-09-24"
+      },
+      {
+        "title": "PJRC measured low-power table",
+        "url": "https://www.pjrc.com/teensy/low_power.html",
+        "section": "Typical current consumed by Teensy",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "These values apply to the AVR Teensy 2.0 family, not newer Teensy models. Isolate USB power when supplying external VCC.",
+    "observations": [
+      {
+        "kind": "Published measurement",
+        "voltage": 5,
+        "currentMa": 60.2,
+        "peakMa": null,
+        "condition": "16 MHz, USB on, running 100%; idle and sleep 0%.",
+        "caveat": "Manufacturer typical result for the stated configuration.",
+        "source": 1
+      },
+      {
+        "kind": "Published measurement",
+        "voltage": 5,
+        "currentMa": 37.9,
+        "peakMa": null,
+        "condition": "8 MHz, USB on, running 100%; idle and sleep 0%.",
+        "caveat": "Manufacturer typical result for the stated configuration.",
+        "source": 1
+      },
+      {
+        "kind": "Published measurement",
+        "voltage": 5,
+        "currentMa": 0.04,
+        "peakMa": null,
+        "condition": "Clock off, USB off, sleep 100%.",
+        "caveat": "Sleep consumption is not the current needed during startup or active use.",
+        "source": 1
+      }
+    ]
+  },
+  {
+    "id": "espc5",
+    "name": "ESP32-C5-DevKitC-1",
+    "brand": "Espressif",
+    "boardIds": [
+      "espressif-esp32-esp32-c5-devkitc-1-v1-2"
+    ],
+    "revision": "v1.2 only",
+    "logic": "3.3 V supply / GPIO domain",
+    "input": "5V and GND pin headers",
+    "voltageMin": null,
+    "voltageMax": null,
+    "nominal": 5,
+    "rangeKind": "Nominal 5 V input; tolerance not collected",
+    "supplyCurrentA": null,
+    "currentMeaning": "Chip-level 600 mA recommendations are not treated as measured board consumption.",
+    "connector": "5V/GND headers; USB and 3V3 are alternative supply methods",
+    "sources": [
+      {
+        "title": "Espressif ESP32-C5-DevKitC-1 v1.2 user guide",
+        "url": "https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c5/esp32-c5-devkitc-1/user_guide.html",
+        "section": "Power Supply Options / Current Measurement",
+        "checked": "2026-09-24"
+      }
+    ],
+    "notes": "USB, 5V/GND headers and 3V3/GND headers are mutually exclusive supply methods. The 3V3 input bypasses regulation. Follow the J5 instructions for module-current measurements.",
+    "observations": []
+  },
+  {
+    "id": "wireless-paper",
+    "name": "Heltec Wireless Paper",
+    "brand": "Heltec",
+    "boardIds": [
+      "heltec-esp32-wireless-paper"
+    ],
+    "revision": "Product datasheet Rev.1.0, May 2023; PCB revision not stated",
+    "logic": "Not independently recorded",
+    "input": "Power input specification still to verify",
+    "voltageMin": null,
+    "voltageMax": null,
+    "nominal": null,
+    "rangeKind": "No input acceptance range recorded",
+    "supplyCurrentA": null,
+    "currentMeaning": "Datasheet operating currents only; not a required adapter rating.",
+    "connector": "Verify the exact board input and battery connector",
+    "sources": [
+      {
+        "title": "Heltec Wireless Paper datasheet",
+        "url": "https://resource.heltec.cn/download/Wireless_Paper/Wireless-Paper.pdf",
+        "section": "Table 2.2 Working current, printed p.7",
+        "checked": "2026-09-24",
+        "file": "power/wireless-paper.pdf"
+      }
+    ],
+    "notes": "The table reports currents at 3.7 V and 5 V but does not fully specify the setup, firmware or battery/charging state. Headings and values are preserved as published; verify against the exact revision.",
+    "observations": [
+      {
+        "kind": "Published operating figure",
+        "voltage": 3.7,
+        "currentMa": 165,
+        "peakMa": null,
+        "condition": "LoRa TX 14 dBm",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 5,
+        "currentMa": 223,
+        "peakMa": null,
+        "condition": "LoRa TX 14 dBm",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 3.7,
+        "currentMa": 180,
+        "peakMa": null,
+        "condition": "LoRa TX 17 dBm",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 5,
+        "currentMa": 243,
+        "peakMa": null,
+        "condition": "LoRa TX 17 dBm",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 3.7,
+        "currentMa": 215,
+        "peakMa": null,
+        "condition": "LoRa TX 22 dBm",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 5,
+        "currentMa": 290,
+        "peakMa": null,
+        "condition": "LoRa TX 22 dBm",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 3.7,
+        "currentMa": 115,
+        "peakMa": null,
+        "condition": "Wi-Fi scan",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 5,
+        "currentMa": 155,
+        "peakMa": null,
+        "condition": "Wi-Fi scan",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 3.7,
+        "currentMa": 150,
+        "peakMa": null,
+        "condition": "Wi-Fi AP",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      },
+      {
+        "kind": "Published operating figure",
+        "voltage": 5,
+        "currentMa": 203,
+        "peakMa": null,
+        "condition": "Wi-Fi AP",
+        "caveat": "No measured peak/transient value or complete test setup supplied.",
+        "source": 0
+      }
+    ]
+  }
+]

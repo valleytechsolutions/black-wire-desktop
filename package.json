@@ -1,0 +1,102 @@
+{
+  "name": "black-wire-technical-reference-guide",
+  "productName": "Black Wire Technical Reference Guide",
+  "version": "0.1.1",
+  "description": "An offline workbench for board pinouts, manufacturer references and power data.",
+  "author": {
+    "name": "Kal / Valleytech Solutions",
+    "url": "https://www.youtube.com/@valleytechsolutions"
+  },
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/prepare-assets.mjs && vite --host 127.0.0.1",
+    "build": "node scripts/prepare-assets.mjs && vite build",
+    "catalog": "node scripts/build-catalog.mjs",
+    "start": "electron .",
+    "test": "node --test tests/*.test.mjs",
+    "test:ui": "playwright test",
+    "dist:win": "pnpm build && electron-builder --win nsis --x64",
+    "dist:linux": "pnpm build && electron-builder --linux AppImage tar.gz",
+    "dist:mac": "pnpm build && electron-builder --mac zip dmg --x64 --arm64",
+    "test:desktop": "node tests/electron-smoke.mjs",
+    "library:import": "node scripts/import-library.mjs",
+    "dist:signed:win": "pnpm build && electron-builder --config electron-builder.signed.cjs --win nsis --x64",
+    "dist:signed:mac": "pnpm build && electron-builder --config electron-builder.signed.cjs --mac dmg zip --x64 --arm64"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3",
+    "sharp": "0.35.4",
+    "vite": "8.3.1",
+    "lucide-react": "1.48.0",
+    "pdfjs-dist": "6.3.289",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "build": {
+    "appId": "studio.blackwire.reference",
+    "productName": "Black Wire Technical Reference Guide",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "library",
+        "to": "library",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico",
+      "signExecutable": false
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "tar.gz"
+      ],
+      "category": "Education",
+      "icon": "build/icon.png"
+    },
+    "mac": {
+      "target": [
+        "zip",
+        "dmg"
+      ],
+      "category": "public.app-category.reference",
+      "icon": "build/icon.icns",
+      "identity": null
+    },
+    "artifactName": "Black-Wire-${version}-${os}-${arch}.${ext}",
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Black Wire Technical Reference Guide",
+      "artifactName": "Black-Wire-${version}-windows-${arch}-setup.${ext}"
+    }
+  },
+  "packageManager": "pnpm@11.19.0",
+  "homepage": "https://github.com/valleytechsolutions/black-wire-desktop",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valleytechsolutions/black-wire-desktop.git"
+  }
+}

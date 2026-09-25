@@ -1,0 +1,59 @@
+import {test,expect} from '@playwright/test';
+test('Library search, pinout viewer, bookmarks and persistence work offline',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:5186')||route.request().url().startsWith('data:')?route.continue():route.abort());
+ await page.goto('/');await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible();
+ await page.screenshot({path:'test-results/library-desktop.png',fullPage:false});
+ await page.getByRole('textbox',{name:'Search boards and references'}).fill('teensy 4.1');
+ await expect(page.locator('.board-card')).toHaveCount(1);
+ await page.getByRole('button',{name:'View Teensy 4.1 references',exact:true}).click();
+ const dialog=page.getByRole('dialog',{name:'Teensy 4.1 references'});await expect(dialog).toBeVisible();
+ await expect(dialog.locator('.scaled-image img')).toBeVisible();
+ await expect.poll(()=>dialog.locator('.scaled-image img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+ await dialog.getByRole('button',{name:'Zoom in',exact:true}).click();await expect(dialog.locator('.zoom-value')).toHaveText('125%');
+ await dialog.getByRole('button',{name:'Save board',exact:true}).click();
+ await dialog.getByRole('button',{name:'Source & revision details'}).click();await expect(dialog.locator('.hash')).toContainText('SHA-256');
+ await page.screenshot({path:'test-results/board-viewer.png',fullPage:false});
+ await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();
+ await page.getByRole('button',{name:'Saved boards',exact:false}).click();await expect(page.locator('.board-card')).toHaveCount(1);
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('blackwire-workbench')||'{}').favorites?.length)).toBe(1);
+ await page.reload();await page.getByRole('button',{name:'Saved boards',exact:false}).click();await expect(page.locator('.board-card')).toHaveCount(1);
+ expect(errors).toEqual([]);
+});
+test('Power profiles, adapter checks, calculations and measured records',async({page})=>{
+ await page.goto('/');await page.getByRole('button',{name:'Power desk',exact:false}).first().click();
+ await expect(page.getByRole('heading',{name:'Voltage & current reference'})).toBeVisible();
+ await page.getByRole('button',{name:'Raspberry Pi Pico',exact:true}).click();
+ await expect(page.locator('.observations')).toContainText('86.5 mA');await expect(page.locator('.observations')).toContainText('25 °C');
+ await page.screenshot({path:'test-results/power-chart.png',fullPage:false});
+ await page.getByRole('tab',{name:'Adapter check'}).click();await page.getByLabel('Board power profile').selectOption('uno-r3');
+ await page.getByLabel('Output voltage',{exact:true}).fill('9');await page.getByLabel('Rated output current').fill('2');await page.getByLabel('Required capacity or worst-case load').fill('0.7');await page.getByLabel('Output type',{exact:true}).selectOption('DC');
+ await page.getByLabel('I confirmed regulated').check();await page.getByLabel('Connector, polarity').check();await expect(page.getByRole('heading',{name:'Matches the entered ratings'})).toBeVisible();
+ await page.getByLabel('Output voltage',{exact:true}).fill('24');await expect(page.getByRole('heading',{name:'Do not connect this combination'})).toBeVisible();
+ await page.getByRole('tab',{name:'Battery math'}).click();await expect(page.locator('.large-number')).toContainText('18');
+ await page.getByRole('tab',{name:'My measurements'}).click();await page.getByRole('button',{name:'Record a measurement',exact:true}).click();
+ const dialog=page.getByRole('dialog',{name:'Record a measurement'});await dialog.getByLabel('Board',{exact:true}).selectOption('raspberry-pi-rp2040-pico');await dialog.getByLabel('PCB revision').fill('Pico Rev3');await dialog.getByLabel('Power input point').fill('VBUS');await dialog.getByLabel('Measured voltage').fill('5');await dialog.getByLabel('Average current',{exact:true}).fill('25');await dialog.getByLabel('Conditions / firmware / peripherals').fill('Test fixture: LED off, no external peripherals');await dialog.getByLabel('Instrument / measurement method').fill('Automated UI test fixture, not a real measurement');await dialog.getByRole('button',{name:'Save measurement'}).click();await expect(page.locator('.measurement-list')).toContainText('0.125');
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('blackwire-workbench')||'{}').measurements?.length)).toBe(1);
+ await page.getByRole('button',{name:'About the guide'}).click();const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Export backup'}).click()]);expect(download.suggestedFilename()).toBe('Black-Wire-workbench.json');
+});
+test('Narrow layout preserves search, readable cards and navigation',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto('/');await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible();
+ await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+ await page.getByRole('textbox',{name:'Search boards and references'}).fill('ESP32 C5');await expect(page.locator('.board-card').first()).toBeVisible();
+ await page.screenshot({path:'test-results/library-mobile.png',fullPage:false});
+ await page.getByRole('button',{name:'Open navigation'}).click();await page.getByRole('button',{name:'About the guide'}).click();await expect(page.getByText('—your pal kal',{exact:true}).last()).toBeVisible();
+});
+
+test('Hyphenated model search and creator links work together',async({page})=>{
+ await page.goto('/');
+ const search=page.getByRole('textbox',{name:'Search boards and references'});
+ await search.fill('ESP32-C5-DevKitC-1');
+ await expect(page.locator('.board-card').first()).toContainText(/ESP32-C5-DEVKITC-1/i);
+ const first=await page.locator('.card-title').first().innerText();
+ await search.fill('ESP32_C5_DevKitC_1');await expect(page.locator('.card-title').first()).toHaveText(first);
+ await expect(page.locator('.sidebar-valleytech img')).toBeVisible();
+ await expect(page.locator('.creator-credit a').first()).toHaveAttribute('href','https://www.youtube.com/@valleytechsolutions');
+ await page.getByRole('button',{name:'About the guide'}).click();
+ await expect(page.locator('.about-signature a')).toHaveAttribute('href','https://www.youtube.com/@valleytechsolutions');
+ await page.screenshot({path:'test-results/about.png',fullPage:false});
+});
