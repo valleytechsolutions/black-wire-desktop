@@ -1,12 +1,14 @@
-# Add Black Wire to the Valleytech web store
+# Black Wire on the Valleytech web store
 
 The guide can be a normal navigation destination within the existing Shopify store. Visitors use the browser version without installing the Windows application.
 
-Proposed store page: `https://valleytechsolutions.tech/pages/bwm-technical-reference-guide`
+Live store page: [BWM-Technical Reference Guide](https://valleytechsolutions.tech/pages/bwm-technical-reference-guide)
+
+Full-screen guide: [valleytech-black-wire-guide.pages.dev](https://valleytech-black-wire-guide.pages.dev/)
 
 Menu label: **BWM-Technical Reference Guide**
 
-This URL is the intended destination, not a claim that the page is already live.
+Published and checked on September 25, 2026. The guide is linked from the store navigation and footer. Cloudflare Pages hosts the browser application and reference files.
 
 ## How it fits into the store
 
@@ -34,21 +36,27 @@ The `_headers` file uses the syntax supported by Cloudflare Pages. Other hosts n
 
 ## Hosting requirements
 
-The current build contains roughly **6,242 files / 1.89 GB**, with a largest file of **15.86 MB**. The build report checks the 20,000-file / 25-MiB-per-file limits documented for Cloudflare Pages direct upload. Hosting eligibility and current account limits must still be checked before deployment. Larger future collections may require separate object storage/CDN hosting for originals.
+The current build contains **6,247 files / 1.89 GB**, with a largest file of **15.86 MB**. The build report checks the 20,000-file / 25-MiB-per-file limits documented for Cloudflare Pages direct upload. This build deployed successfully. Recheck account and platform limits before future editions; larger collections may require separate object storage/CDN hosting for originals.
 
-Cloudflare Pages is a suitable candidate for the current static output. GitHub remains the source/release location; the web app does not depend on GitHub raw-file URLs as a production image CDN. A hosting account/destination is required before deployment. Do not upload an installer EXE into a Shopify page and expect it to run in a visitor's browser.
+The Cloudflare Pages project is `valleytech-black-wire-guide`, with production branch `main`. GitHub remains the source/release location; the web app does not depend on GitHub raw-file URLs as a production image CDN. Deploy only the browser output, using an authenticated Wrangler installation:
+
+```sh
+wrangler pages deploy web-release --project-name valleytech-black-wire-guide --branch main
+```
+
+Keep hosting credentials outside the repository. The app needs no credentials at runtime.
 
 ## Connect the verified deployment
 
 After deployment, test its real HTTPS URL, images, PDFs, mobile layout, downloads and browser storage. Generate the store page body using that verified URL:
 
 ```sh
-node scripts/prepare-shopify-page.mjs https://your-verified-guide-host.example/
+node scripts/prepare-shopify-page.mjs https://valleytech-black-wire-guide.pages.dev/
 ```
 
 This generates `data/qa/shopify/guide-page.html` from `integrations/shopify/guide-page.template.html`. Use the **BWM-Technical Reference Guide** title and `bwm-technical-reference-guide` page handle. Publish and add the navigation item only once the embedded guide works. The placeholder in the template is not a deployable address.
 
-The default Shopify page may constrain content width. Begin with the existing theme's page layout and verify it on desktop/mobile; use a dedicated wide page template if needed. Theme changes should be previewed before publishing.
+The page body contains a responsive wrapper that gives the guide more room within Shopify's narrow page layout. It adjusts only this guide section and requires no live theme-file edits. Recheck desktop and phone widths after theme changes.
 
 ## Behavior and limits
 
@@ -61,6 +69,8 @@ The default Shopify page may constrain content width. Begin with the existing th
 
 ## Validation recorded locally
 
-The browser smoke test covers mounting below `/bwm-guide/`, on-demand originals, dash-aware search, image rendering, original downloads, bookmarks, direct board links, PDF pagination, the power desk, sandboxed embedding, narrow layout and the production content-security policy. The tested initial page loaded approximately **6.84 MB decoded**, with no original media files requested before opening a board. Deployment and the real Shopify theme still require verification.
+The browser smoke test covers mounting below `/bwm-guide/`, on-demand originals, dash-aware search, image rendering, original downloads, bookmarks, direct board links, PDF pagination, the power desk, sandboxed embedding, narrow layout and the production content-security policy. The tested initial page loaded approximately **6.84 MB decoded**, with no original media files requested before opening a board.
+
+Live checks confirmed the public HTTPS catalog, Shopify menu/page, embedded Raspberry Pi Pico 2 pinout, and 24 matching results for both `esp32-c5` and `esp32 c5`. The store page was checked at desktop and 390-pixel phone widths without horizontal page overflow. Existing navigation links and nested hardware categories were preserved.
 
 Primary documentation: [Shopify pages and embedded content](https://help.shopify.com/en/manual/online-store/add-edit-pages), [Shopify menu links](https://help.shopify.com/en/manual/online-store/menus-and-links/editing-menus), [Cloudflare Pages direct upload](https://developers.cloudflare.com/pages/get-started/direct-upload/), [Pages limits](https://developers.cloudflare.com/pages/platform/limits/).

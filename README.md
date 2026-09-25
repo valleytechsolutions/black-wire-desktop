@@ -60,7 +60,9 @@ Read [DOWNLOADS.md](docs/DOWNLOADS.md) for checksums, signing status and securit
 
 ## Browser edition for the Valleytech store
 
-The same guide now has a static browser build for embedding in a Shopify page named **BWM-Technical Reference Guide**. Visitors can search, view pinouts/PDFs and use power tools without installing an app. References load on demand; browser bookmarks and measurements stay local. This edition has passed local browser/embed checks; public hosting and the live store page are pending.
+**[Open BWM-Technical Reference Guide on the Valleytech store](https://valleytechsolutions.tech/pages/bwm-technical-reference-guide)** — or [open the guide full screen](https://valleytech-black-wire-guide.pages.dev/).
+
+The complete current catalog is available in your browser. Search, view pinouts/PDFs and use power tools without installing an app. References load on demand; browser bookmarks and measurements stay local. The live Shopify embed has been checked on desktop and phone widths. The desktop edition remains available for offline use.
 
 See [Website integration](docs/WEBSITE.md) for the prepared page, build commands and hosting requirements.
 
