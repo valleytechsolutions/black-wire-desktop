@@ -19,3 +19,6 @@ black-wire-pinouts/
 .env
 .env.*
 !.env.example
+
+web-release/
+.wrangler/

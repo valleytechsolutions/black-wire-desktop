@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+const destination=process.argv[2];
+if(!destination)throw new Error('Provide the verified HTTPS URL of the deployed browser guide.');
+const url=new URL(destination);
+if(url.protocol!=='https:'||url.username||url.password||url.hash)throw new Error('A public HTTPS guide URL without credentials or fragment is required.');
+const escaped=url.href.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+const template=await fs.readFile('integrations/shopify/guide-page.template.html','utf8');
+await fs.mkdir('data/qa/shopify',{recursive:true});
+await fs.writeFile('data/qa/shopify/guide-page.html',template.replaceAll('{{GUIDE_URL}}',escaped));
+console.log('Prepared data/qa/shopify/guide-page.html. Review the deployed guide before adding this page and menu item to Shopify.');

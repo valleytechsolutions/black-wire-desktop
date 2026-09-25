@@ -1,5 +1,6 @@
 import React,{useEffect,useRef,useState} from 'react';
 import {getDocument,GlobalWorkerOptions} from 'pdfjs-dist';
+import {appAsset} from './runtime.mjs';
 import workerURL from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 GlobalWorkerOptions.workerSrc=workerURL;
 
@@ -15,7 +16,7 @@ export default function PdfViewer({url,label,zoom,rotation}){
   (async()=>{
    try{
     const r=await fetch(url,{signal:abort.signal});if(!r.ok)throw new Error('PDF file could not be opened.');
-    task=getDocument({data:new Uint8Array(await r.arrayBuffer()),cMapUrl:'/pdf/cmaps/',cMapPacked:true,standardFontDataUrl:'/pdf/standard_fonts/',wasmUrl:'/pdf/wasm/',isEvalSupported:false});
+    task=getDocument({data:new Uint8Array(await r.arrayBuffer()),cMapUrl:appAsset('pdf/cmaps/'),cMapPacked:true,standardFontDataUrl:appAsset('pdf/standard_fonts/'),wasmUrl:appAsset('pdf/wasm/'),isEvalSupported:false});
     const next=await task.promise;if(!stopped)setDoc(next);
    }catch(e){if(!stopped)setError(e.message);}
   })();

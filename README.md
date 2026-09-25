@@ -56,6 +56,14 @@ For Windows, download the complete installer from a release, then open it from F
 
 Read [DOWNLOADS.md](docs/DOWNLOADS.md) for checksums, signing status and security warnings. A checksum checks download integrity; it does not replace a trusted publisher signature. Preview builds may still trigger Windows warnings.
 
+## Browser edition for the Valleytech store
+
+The same guide now has a static browser build for embedding in a Shopify page named **BWM-Technical Reference Guide**. Visitors can search, view pinouts/PDFs and use power tools without installing an app. References load on demand; browser bookmarks and measurements stay local. This edition has passed local browser/embed checks; public hosting and the live store page are pending.
+
+See [Website integration](docs/WEBSITE.md) for the prepared page, build commands and hosting requirements.
+
+![Browser edition of the guide](docs/screenshots/browser-guide.png)
+
 ## Two repositories, one field guide
 
 - **[black-wire-pinouts](https://github.com/valleytechsolutions/black-wire-pinouts):** images, PDFs, catalog, board pages and per-reference attribution.

@@ -52,3 +52,7 @@ Mac builds also require `APPLE_API_KEY`, `APPLE_API_KEY_ID` and `APPLE_API_ISSUE
 Verify Authenticode signatures on the Windows app and installer; on macOS verify codesign, notarization and stapling, then test a downloaded build on clean systems. See DOWNLOADS.md. Do not publish a stable release until native launch and signing/notarization checks pass.
 
 The older `catalog` and `create-power-data` scripts support the original collection workspace layout. For these separated repositories, use `library:import`; the full original research workspace is not required.
+
+## Browser / Shopify edition
+
+Use `pnpm build:web` and `pnpm test:web` for the browser edition. [Website integration](WEBSITE.md) explains static hosting and embedding the guide in the Valleytech store. The browser build is independent of the native Windows installer.
