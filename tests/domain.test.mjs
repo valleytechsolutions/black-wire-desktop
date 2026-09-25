@@ -4,6 +4,16 @@ import {createRequire} from 'node:module';
 import {searchBoards,adapterCheck,batteryEstimate,budgetTotal,validateMeasurement,validateBackup} from '../src/domain.mjs';
 const require=createRequire(import.meta.url);const {contained,externalURL}=require('../electron/paths.cjs');
 const b=(id,name,brand,processor,extra={})=>({id,name,brand,processor,family:'ESP32',assets:[{type:'pinout image',review:'Reviewed source'}],pinouts:1,searchText:name+' '+brand+' '+processor,...extra});
+
+test('Device browsing excludes bare boards and missing sheets while preserving model search',()=>{
+ const rows=[b('embed','T-Embed','LILYGO','ESP32-S3',{device:{category:'Handhelds & pocket tools',tags:['IoT']}}),b('beam','T-Beam Supreme','LILYGO','ESP32-S3',{device:{category:'Radios & GNSS',tags:['LoRa']}}),b('kit','ESP32-S3 DevKit','Espressif','ESP32-S3'),b('future','Future handheld','LILYGO','ESP32-S3',{device:{category:'Handhelds & pocket tools'},assets:[]})];
+ assert.deepEqual(searchBoards(rows,{devicesOnly:true,query:'t embed'}).map(x=>x.id),['embed']);
+ assert.deepEqual(searchBoards(rows,{devicesOnly:true,query:'T-Beam'}).map(x=>x.id),['beam']);
+ assert.deepEqual(searchBoards(rows,{devicesOnly:true,query:'LoRa'}).map(x=>x.id),['beam']);
+ assert.equal(searchBoards(rows,{devicesOnly:true}).length,2);
+ assert.deepEqual(searchBoards(rows,{devicesOnly:true,deviceCategory:'Radios & GNSS'}).map(x=>x.id),['beam']);
+ assert.equal(searchBoards(rows,{devicesOnly:true,brand:'Espressif'}).length,0);
+});
 test('Search matches punctuation variants without confusing C5 and C6',()=>{const rows=[b('a','ESP32-C5-DevKitC-1','Espressif','ESP32-C5'),b('b','ESP32-C6-DevKitC-1','Espressif','ESP32-C6')];assert.deepEqual(searchBoards(rows,{query:'esp32 c5'}).map(x=>x.id),['a']);assert.deepEqual(searchBoards(rows,{query:'ESP32C5'}).map(x=>x.id),['a']);assert.equal(searchBoards(rows,{query:'c5',brand:'Waveshare'}).length,0);});
 test('Aliases find original files and filters combine',()=>{const rows=[b('a','Pico 2','Raspberry Pi','RP2350',{searchText:'Pico 2 Raspberry Pi RP2350 old-pinmap.pdf'}),b('b','Pico','Raspberry Pi','RP2040')];assert.equal(searchBoards(rows,{query:'old pinmap'}).length,1);assert.deepEqual(searchBoards(rows,{processor:'RP2350',savedOnly:true,favorites:['a']}).map(x=>x.id),['a']);assert.equal(searchBoards(rows,{kind:'original reference PDF'}).length,0);});
 const adapter={voltage:9,current:2,minVoltage:7,maxVoltage:12,loadCurrent:.7,outputType:'DC',regulated:true,connectorConfirmed:true};

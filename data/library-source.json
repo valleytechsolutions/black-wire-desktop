@@ -1,7 +1,9 @@
 {
   "repository": "valleytechsolutions/black-wire-pinouts",
-  "commit": "5d52f88ecd98f5789e336dba6092b977ff4f835c",
-  "edition": "September 2026 workshop snapshot",
-  "references": 2988,
-  "pinouts": 1358
+  "commit": "6a97833df9b2367e172ce939fcbdd255f7560a6a",
+  "edition": "First Edition / 2026",
+  "snapshot": "2026.09.2",
+  "references": 3003,
+  "pinouts": 1365,
+  "devicesWithFiles": 310
 }

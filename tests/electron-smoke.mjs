@@ -15,7 +15,7 @@ try{
  expect(await page.evaluate(()=>typeof window.require)).toBe('undefined');
  expect(await page.evaluate(()=>window.blackwire.platform)).toBe('win32');
  const catalog=await page.evaluate(()=>fetch('/catalog.json').then(r=>r.json()));
- expect(catalog.stats.referenceEntries).toBe(2988);
+ expect(catalog.stats.referenceEntries).toBe(catalog.boards.reduce((n,b)=>n+b.assets.length,0));
  const pdfBoard=catalog.boards.find(b=>b.assets.some(a=>a.extension==='pdf')&&b.assets.some(a=>a.type==='pinout image'));
  const pdf=pdfBoard.assets.find(a=>a.extension==='pdf');
  const pdfStatus=await page.evaluate(async file=>{const r=await fetch('/library/'+file);return {status:r.status,type:r.headers.get('content-type'),signature:new TextDecoder().decode((await r.arrayBuffer()).slice(0,5))};},pdf.file);

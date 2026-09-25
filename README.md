@@ -7,7 +7,7 @@
 <p align="center">Makers · Educators · Students · Hobbyists · Engineers</p>
 
 <p align="center"><a href="https://github.com/valleytechsolutions/black-wire-desktop/releases">Downloads & release status</a> · <a href="https://github.com/valleytechsolutions/black-wire-pinouts">Browse the pinout collection</a> · <a href="docs/BUILDING.md">Build the app</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
-<p align="center"><img alt="Edition" src="https://img.shields.io/badge/edition-workshop_preview-d5f58a?style=flat-square&labelColor=17211f"> <img alt="Offline" src="https://img.shields.io/badge/reference_library-offline-d5f58a?style=flat-square&labelColor=17211f"> <img alt="Platforms" src="https://img.shields.io/badge/targets-Windows_%7C_Linux_%7C_macOS-d5f58a?style=flat-square&labelColor=17211f"></p>
+<p align="center"><img alt="Edition" src="https://img.shields.io/badge/edition-First_Edition_2026-d5f58a?style=flat-square&labelColor=17211f"> <img alt="Offline" src="https://img.shields.io/badge/reference_library-offline-d5f58a?style=flat-square&labelColor=17211f"> <img alt="Platforms" src="https://img.shields.io/badge/targets-Windows_%7C_Linux_%7C_macOS-d5f58a?style=flat-square&labelColor=17211f"></p>
 
 ![Black Wire board library, with manufacturer and microcontroller filters](docs/screenshots/library.png)
 
@@ -20,6 +20,7 @@ Built for a student's first breadboard, an educator's lab, a hobbyist's parts dr
 | At your bench | What the app does |
 |---|---|
 | Find the right board | Search names, aliases and filenames; filter manufacturer, MCU variant, family and review status. Dashes, spaces and underscores work interchangeably. |
+| Find a maker device | Dedicated Devices & IoT tab with 310 device records, category filters, exact model references and visible documentation gaps. |
 | Read the details | Zoom, pan and rotate diagrams; browse local PDFs; save the original-resolution file. |
 | Check the source | Keep source links, revision notes, coverage labels and hashes with each reference. |
 | Plan power | Read sourced voltage/current profiles and published observations; compare adapter ratings, estimate battery runtime and total power across voltage rails. |
@@ -28,9 +29,17 @@ Built for a student's first breadboard, an educator's lab, a hobbyist's parts dr
 
 ### A growing library
 
-**2,988 reference entries · 1,358 reviewed physical pinout images · 59 brands/source groups.** There are 1,682 populated catalog records, including shared references and unreviewed source products. This is a collection snapshot, not a claim to cover every board ever made.
+**3,003 reference entries · 1,365 reviewed physical pinout images · 60 brands/source groups.** There are 1,688 populated catalog records, including shared references and unreviewed source products. This is a collection snapshot, not a claim to cover every board ever made.
 
 ESP32 variants including C5/C6/S3, RP2040/RP2350, CYD displays, Arduino, Teensy, Raspberry Pi, other SBCs, radio boards and GPIO devices are indexed separately where their identities are known. Chip-package references are labeled separately from board pinouts.
+
+## Devices & IoT
+
+![Device categories, search and original pinout images](docs/screenshots/devices-iot.png)
+
+Browse handhelds, radios, wearables, displays, cameras and controllers. Search T-Embed, T-Beam, Cardputer or Flipper Zero using the same dash-tolerant search. In-development documentation is labeled; missing pinout images stay in a documentation-watch list.
+
+The guide is **First Edition / 2026**, with digital collection snapshot **2026.09.2**. App updates and collection snapshots do not advance the annual book edition. See [publication workflow](docs/MAINTENANCE.md).
 
 ## Look closer
 
@@ -46,11 +55,11 @@ The power desk includes **13 sourced profiles and 22 published operating observa
 
 Check [Releases](https://github.com/valleytechsolutions/black-wire-desktop/releases) for the actual available assets and validation status. An absent platform asset means that platform has not been released.
 
-**Available now: [Windows x64 workshop preview 0.1.2](https://github.com/valleytechsolutions/black-wire-desktop/releases/tag/v0.1.2).** Linux and macOS build targets are provided, but verified downloads for those systems have not been published. For images and PDFs without an application, use the separate [pinout collection releases](https://github.com/valleytechsolutions/black-wire-pinouts/releases); those ZIP files can be read on all three operating systems.
+**Available now: [Windows x64 preview 0.2.0](https://github.com/valleytechsolutions/black-wire-desktop/releases/tag/v0.2.0).** Linux and macOS build targets are provided, but verified downloads for those systems have not been published. For images and PDFs without an application, use the separate [pinout collection releases](https://github.com/valleytechsolutions/black-wire-pinouts/releases); those ZIP files can be read on all three operating systems.
 
 | Platform | Current status |
 |---|---|
-| Windows x64 | Native app tested; 0.1.2 installer built and packaged app tested. Installation on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
+| Windows x64 | 0.2.0 renderer tested in the browser; installer and bundled library verified. Native installation of this version on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
 | Linux x64 / ARM64 | Packaging supported; native launch validation remains outstanding. |
 | macOS Intel / Apple Silicon | Build targets provided; a Mac, Developer ID signing and notarization are needed for a distributable release. No verified Mac binary is claimed. |
 
@@ -79,7 +88,7 @@ See [Build and development](docs/BUILDING.md), [Workbench guide](docs/WORKBENCH.
 
 Original board artwork belongs to its credited authors/manufacturers. This application does not claim ownership or grant new permissions over those references. See the collection's [per-asset ledger](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/catalog/attributions.csv) before reuse. **Original app code: [MIT](LICENSE)** — reuse and modify, including commercially, while retaining the copyright and permission notice. **Original guide material: CC BY 4.0** — reuse with attribution, a license link and a note of changes. See [license scope](LICENSING.md), [creator credit](NOTICE.md) and [privacy](PRIVACY.md). These licenses do not relicense manufacturer diagrams.
 
-The workshop preview is the starting point for a lasting maker reference. A wiki and annual print editions are future projects, with separate completeness, rights and print-quality reviews.
+First Edition is a growing digital collection for a lasting maker reference. A wiki and annual print editions are future projects, with separate completeness, rights and print-quality reviews.
 
 ---
 Created and curated by **—your pal kal** · [@valleytechsolutions on YouTube](https://www.youtube.com/@valleytechsolutions)

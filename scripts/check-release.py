@@ -31,8 +31,10 @@ for file in sorted(release.glob(f'Black-Wire-{version}-*')):
                 if member.name.endswith('/resources/library/catalog.json'):
                     catalog = json.load(archive.extractfile(member))
             assert executable
-    assert catalog['stats']['referenceEntries'] == 2988
-    assert catalog['stats']['physicalPinouts'] == 1358
+    expected = json.loads((root / 'library/catalog.json').read_text(encoding='utf-8'))
+    assert catalog['stats']['referenceEntries'] == expected['stats']['referenceEntries']
+    assert catalog['stats']['physicalPinouts'] == expected['stats']['physicalPinouts']
+    assert catalog.get('editionInfo') == expected.get('editionInfo')
     assert next(p['boardIds'] for p in catalog['power'] if p['id'] == 'espc5') == ['espressif-esp32-esp32-c5-devkitc-1-v1-2']
     with file.open('rb') as stream:
         sha = hashlib.file_digest(stream, 'sha256').hexdigest()
