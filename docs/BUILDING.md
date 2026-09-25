@@ -56,3 +56,6 @@ The older `catalog` and `create-power-data` scripts support the original collect
 ## Browser / Shopify edition
 
 Use `pnpm build:web` and `pnpm test:web` for the browser edition. [Website integration](WEBSITE.md) explains static hosting and embedding the guide in the Valleytech store. The browser build is independent of the native Windows installer.
+
+On Windows, use a short checkout path (for example, `C:\src\black-wire-desktop`). NSIS can reject long template include paths inside pnpm's dependency store even when Node can read those files.
+
