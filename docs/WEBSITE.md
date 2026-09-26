@@ -10,7 +10,11 @@ Menu label: **BWM-Technical Reference Guide**
 
 The guide was initially published on September 25, 2026. The guide is linked from the store navigation and footer. Cloudflare Pages hosts the browser application and reference files.
 
-## Workbench update / 0.6.0
+## Reliability update / 0.6.1
+
+PDF scrolling, rotation, bounded zoom, page navigation and retry now share the same web/desktop implementation. Collection snapshot **2026.09.6** adds eight references across five board models.
+
+## Theme and discovery update / 0.6.0
 
 The web and desktop apps share a default charcoal-and-gold dark theme and a persistent Light mode. The current title is **The Black Wire Maker's Technical Reference Guide**. Collection snapshot **2026.09.5** is unchanged; this is an interface and documentation release.
 

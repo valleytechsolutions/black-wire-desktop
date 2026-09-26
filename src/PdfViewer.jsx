@@ -1,40 +1,64 @@
 import React,{useEffect,useRef,useState} from 'react';
 import {getDocument,GlobalWorkerOptions} from 'pdfjs-dist';
 import {appAsset} from './runtime.mjs';
+import {pdfGeometry} from './pdf-geometry.mjs';
 import workerURL from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 GlobalWorkerOptions.workerSrc=workerURL;
 
-export default function PdfViewer({url,label,zoom,rotation}){
- const host=useRef(null),canvas=useRef(null),[doc,setDoc]=useState(null),[pageNumber,setPageNumber]=useState(1),[width,setWidth]=useState(700),[error,setError]=useState(''),[rendered,setRendered]=useState(false);
+export default function PdfViewer({url,label,zoom=1,rotation=0}){
+ const scroll=useRef(null),canvasHost=useRef(null);
+ const [doc,setDoc]=useState(null),[pageNumber,setPageNumber]=useState(1),[pageInput,setPageInput]=useState('1');
+ const [width,setWidth]=useState(0),[error,setError]=useState(''),[rendered,setRendered]=useState(false),[attempt,setAttempt]=useState(0);
  useEffect(()=>{
-  const parent=host.current.parentElement;
-  const observer=new ResizeObserver(()=>setWidth(Math.max(200,parent.clientWidth-48)));observer.observe(parent);
+  const node=scroll.current;
+  const resize=()=>setWidth(Math.max(1,node.clientWidth-24));
+  resize();const observer=new ResizeObserver(resize);observer.observe(node);
   return()=>observer.disconnect();
  },[]);
  useEffect(()=>{
-  let stopped=false,task;const abort=new AbortController();setDoc(null);setError('');setPageNumber(1);
+  let stopped=false,task;const abort=new AbortController();
+  setDoc(null);setError('');setRendered(false);setPageNumber(1);canvasHost.current.replaceChildren();
   (async()=>{
    try{
     const r=await fetch(url,{signal:abort.signal});if(!r.ok)throw new Error('PDF file could not be opened.');
-    task=getDocument({data:new Uint8Array(await r.arrayBuffer()),cMapUrl:appAsset('pdf/cmaps/'),cMapPacked:true,standardFontDataUrl:appAsset('pdf/standard_fonts/'),wasmUrl:appAsset('pdf/wasm/'),isEvalSupported:false});
+    const data=new Uint8Array(await r.arrayBuffer());if(stopped)return;
+    task=getDocument({data,cMapUrl:appAsset('pdf/cmaps/'),cMapPacked:true,standardFontDataUrl:appAsset('pdf/standard_fonts/'),wasmUrl:appAsset('pdf/wasm/'),isEvalSupported:false});
     const next=await task.promise;if(!stopped)setDoc(next);
-   }catch(e){if(!stopped)setError(e.message);}
+   }catch(e){if(!stopped)setError(e.message||'Document unavailable.');}
   })();
-  return()=>{stopped=true;abort.abort();task?.destroy();};
- },[url]);
+  return()=>{stopped=true;abort.abort();task?.destroy().catch(()=>{});};
+ },[url,attempt]);
+ useEffect(()=>{setPageInput(String(pageNumber));scroll.current.scrollTo(0,0);},[pageNumber,url]);
  useEffect(()=>{
-  if(!doc)return;let stopped=false,renderTask;setRendered(false);
+  if(!doc||!width)return;let stopped=false,renderTask;setRendered(false);setError('');canvasHost.current.replaceChildren();
   (async()=>{try{
    const page=await doc.getPage(pageNumber);if(stopped)return;
-   const viewport=page.getViewport({scale:1,rotation}),ratio=Math.min(window.devicePixelRatio||1,2);
-   const scaled=page.getViewport({scale:width*zoom/viewport.width*ratio,rotation});
-   const node=canvas.current;node.width=Math.ceil(scaled.width);node.height=Math.ceil(scaled.height);node.style.width=`${scaled.width/ratio}px`;node.style.height=`${scaled.height/ratio}px`;
-   renderTask=page.render({canvasContext:node.getContext('2d'),viewport:scaled});await renderTask.promise;if(!stopped)setRendered(true);
-  }catch(e){if(!stopped&&e.name!=='RenderingCancelledException')setError(e.message);}})();
+   const angle=((page.rotate+rotation)%360+360)%360;
+   const natural=page.getViewport({scale:1,rotation:angle});
+   const geometry=pdfGeometry(natural.width,natural.height,width,zoom,window.devicePixelRatio||1);
+   const viewport=page.getViewport({scale:geometry.scale,rotation:angle});
+   // A cancelled render never shares its canvas with the next page.
+   const node=document.createElement('canvas');node.width=geometry.pixelWidth;node.height=geometry.pixelHeight;
+   node.style.width=`${geometry.cssWidth}px`;node.style.height=`${geometry.cssHeight}px`;
+   node.setAttribute('role','img');node.setAttribute('aria-label',`${label}, page ${pageNumber}`);
+   renderTask=page.render({canvasContext:node.getContext('2d'),viewport});await renderTask.promise;
+   if(!stopped){node.dataset.rendered='true';canvasHost.current.replaceChildren(node);setRendered(true);}
+  }catch(e){if(!stopped&&e.name!=='RenderingCancelledException')setError(e.message||'Page unavailable.');}})();
   return()=>{stopped=true;renderTask?.cancel();};
- },[doc,pageNumber,width,zoom,rotation]);
- return <div ref={host} className="pdf-viewer" onPointerDown={e=>e.stopPropagation()}>
-  <div className="pdf-page-controls"><button className="secondary-button" disabled={!doc||pageNumber<=1} onClick={()=>setPageNumber(n=>n-1)}>Previous page</button><span role="status">{doc?`Page ${pageNumber} of ${doc.numPages}`:'Opening document…'}</span><button className="secondary-button" disabled={!doc||pageNumber>=doc.numPages} onClick={()=>setPageNumber(n=>n+1)}>Next page</button></div>
-  {error?<p role="alert">The PDF preview could not load: {error} Use Save original to open the document separately.</p>:<><canvas ref={canvas} role="img" aria-label={`${label}, page ${pageNumber}`} data-rendered={rendered?'true':'false'}/>{!rendered&&<p className="pdf-loading">Rendering reference page…</p>}</>}
+ },[doc,pageNumber,width,zoom,rotation,label]);
+ function changePage(next){if(doc)setPageNumber(Math.max(1,Math.min(doc.numPages,next)));}
+ function go(e){e.preventDefault();if(/^\d+$/.test(pageInput))changePage(Number(pageInput));else setPageInput(String(pageNumber));}
+ return <div className="pdf-viewer" onPointerDown={e=>e.stopPropagation()}>
+  <div className="pdf-page-controls">
+   <button className="secondary-button" disabled={!doc||pageNumber<=1} onClick={()=>changePage(pageNumber-1)}>Previous page</button>
+   <form onSubmit={go}><label>Page <input aria-label="PDF page number" inputMode="numeric" type="number" min="1" max={doc?.numPages||1} value={pageInput} disabled={!doc} onChange={e=>setPageInput(e.target.value)}/></label><button className="secondary-button" disabled={!doc} type="submit">Go</button></form>
+   <span role="status">{doc?`Page ${pageNumber} of ${doc.numPages}`:error?'Document unavailable':'Opening document…'}</span>
+   <button className="secondary-button" disabled={!doc||pageNumber>=doc.numPages} onClick={()=>changePage(pageNumber+1)}>Next page</button>
+  </div>
+  {error&&<div className="pdf-error" role="alert"><p>The PDF preview could not load: {error}</p><button className="secondary-button" onClick={()=>setAttempt(n=>n+1)}>Retry PDF</button><p>You can also use Save original to open the document separately.</p></div>}
+  <div ref={scroll} className="pdf-scroll" tabIndex={0} aria-label="PDF page; scroll to pan" aria-busy={!rendered&&!error}>
+   <div ref={canvasHost} className="pdf-canvas-host"/>
+   {!rendered&&!error&&<p className="pdf-loading">Rendering reference page…</p>}
+  </div>
  </div>;
 }

@@ -4,7 +4,7 @@ test('Library search, pinout viewer, bookmarks and persistence work offline',asy
  await page.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:5186')||route.request().url().startsWith('data:')?route.continue():route.abort());
  await page.goto('/');await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible();
  await page.screenshot({path:'test-results/library-desktop.png',fullPage:false});
- await page.getByRole('textbox',{name:'Search boards and references'}).fill('teensy 4.1');
+ await page.getByRole('combobox',{name:'Search boards and references'}).fill('teensy 4.1');await page.keyboard.press('Escape');
  await expect(page.locator('.board-card')).toHaveCount(1);
  await page.getByRole('button',{name:'View Teensy 4.1 references',exact:true}).click();
  const dialog=page.getByRole('dialog',{name:'Teensy 4.1 references'});await expect(dialog).toBeVisible();
@@ -39,14 +39,14 @@ test('Power profiles, adapter checks, calculations and measured records',async({
 test('Narrow layout preserves search, readable cards and navigation',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible();
  await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
- await page.getByRole('textbox',{name:'Search boards and references'}).fill('ESP32 C5');await expect(page.locator('.board-card').first()).toBeVisible();
+ await page.getByRole('combobox',{name:'Search boards and references'}).fill('ESP32 C5');await expect(page.locator('.board-card').first()).toBeVisible();
  await page.screenshot({path:'test-results/library-mobile.png',fullPage:false});
  await page.getByRole('button',{name:'Open navigation'}).click();await page.getByRole('button',{name:'About the guide'}).click();await expect(page.getByText('—your pal kal',{exact:true}).last()).toBeVisible();
 });
 
 test('Hyphenated model search and creator links work together',async({page})=>{
  await page.goto('/');
- const search=page.getByRole('textbox',{name:'Search boards and references'});
+ const search=page.getByRole('combobox',{name:'Search boards and references'});
  await search.fill('ESP32-C5-DevKitC-1');
  await expect(page.locator('.board-card').first()).toContainText(/ESP32-C5-DEVKITC-1/i);
  const first=await page.locator('.card-title').first().innerText();

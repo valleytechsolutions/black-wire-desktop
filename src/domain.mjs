@@ -77,7 +77,8 @@ export function validateMeasurement(m,boardIds){
  if(!m||required.some(k=>typeof m[k]!=='string'||!m[k].trim())||!boardIds.has(m.boardId))return 'Board, revision, input point, conditions, instrument and date are required.';
  if(!finite(m.voltage)||m.voltage<=0||m.voltage>1000||!finite(m.currentMa)||m.currentMa<0||m.currentMa>1000000)return 'Enter a positive measured voltage and a non-negative current in mA.';
  if(m.peakMa!=null&&(!finite(m.peakMa)||m.peakMa<m.currentMa))return 'Peak current must be at least the average current.';
- if(!/^\d{4}-\d{2}-\d{2}$/.test(m.date)||Number.isNaN(Date.parse(m.date)))return 'Enter a valid measurement date.';
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(m.date)||Number.isNaN(Date.parse(m.date))||new Date(m.date).toISOString().slice(0,10)!==m.date)return 'Enter a valid measurement date.';
+ if(m.notes!=null&&typeof m.notes!=='string')return 'Measurement notes must be text.';
  if(required.some(k=>m[k].length>2000)||(m.notes||'').length>5000)return 'A text field is too long.';
  return '';
 }
@@ -87,4 +88,14 @@ export function validateBackup(data,boardIds){
  for(const m of data.measurements){const error=validateMeasurement(m,boardIds);if(error)throw new Error('Invalid measurement: '+error);}
  const cleanMeasurements=data.measurements.map((m,i)=>Object.fromEntries(['id','boardId','revision','condition','instrument','date','input','voltage','currentMa','peakMa','notes'].map(k=>[k,k==='id'?String(m.id||'import-'+i):m[k]??(k==='peakMa'?null:'')])));
  return {favorites:[...new Set(data.favorites.filter(id=>typeof id==='string'&&boardIds.has(id)))],measurements:cleanMeasurements};
+}
+export function validateSavedWorkbench(data){
+ if(data&&typeof data==='object'&&!Array.isArray(data)&&Object.keys(data).length===0)return {favorites:[],measurements:[]};
+ if(!data||!Array.isArray(data.favorites)||!Array.isArray(data.measurements)||data.favorites.length>10000||data.measurements.length>10000||data.favorites.some(id=>typeof id!=='string'))throw new Error('Saved workbench has an unexpected format. Your saved data has not been overwritten.');
+ const ids=new Set();
+ for(const m of data.measurements){
+  if(!m||typeof m.id!=='string'||!m.id||ids.has(m.id)||validateMeasurement(m,new Set([m.boardId])))throw new Error('A saved measurement has an unexpected format. Your saved data has not been overwritten.');
+  ids.add(m.id);
+ }
+ return {favorites:[...new Set(data.favorites)],measurements:data.measurements};
 }

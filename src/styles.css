@@ -25,11 +25,24 @@ dialog{border:1px solid var(--line);box-shadow:0 30px 120px var(--shadow);border
 @media(max-width:430px){.card-meta{font-size:9px}.stat div>span{font-size:9px}.source-details{font-size:10px}.card-title{font-size:16px}.sidebar nav button{font-size:13px}.list-view .card-title{font-size:13px}.text-link{font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 /* Keep PDF rendering local and consistent across desktop operating systems. */
-.pdf-viewer{min-width:100%;padding:20px 24px;box-sizing:border-box;position:relative}
-.pdf-viewer canvas{display:block;background:var(--surface);box-shadow:0 4px 20px var(--shadow);margin:0 auto}
-.pdf-page-controls{display:flex;justify-content:center;align-items:center;gap:20px;position:sticky;left:0;top:0;margin:0 auto 20px;background:var(--surface);padding:8px;width:fit-content;border-radius:8px;z-index:1;font-size:13px}
+.image-stage{touch-action:auto}.image-stage.is-pdf{overflow:hidden;cursor:auto}
+.maker-image-stage.is-pdf{height:clamp(340px,60vh,680px);overflow:hidden}
+.pdf-viewer{width:100%;height:100%;min-height:0;display:flex;flex-direction:column;position:relative}
+.pdf-scroll{overflow:auto;flex:1;min-height:0;touch-action:pan-x pan-y;overscroll-behavior:contain;padding:12px;scrollbar-gutter:stable;background:white}
+.pdf-canvas-host{width:max-content;min-width:100%;min-height:0}
+.pdf-viewer canvas{display:block;background:white;max-width:none;box-shadow:0 4px 20px var(--shadow);margin:0 auto}
+.pdf-page-controls{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;flex-shrink:0;gap:8px;background:var(--surface);padding:10px;border-bottom:1px solid var(--line);font-size:12px}
+.pdf-page-controls form,.pdf-page-controls label{display:flex;align-items:center;gap:6px}
+.pdf-page-controls input{width:60px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:7px;font:inherit}
+.pdf-page-controls .secondary-button{font-size:11px;padding:8px}
+.pdf-page-controls [role=status]{white-space:nowrap}
+.pdf-error{padding:12px;color:var(--ink);background:var(--surface);overflow:auto;font-size:12px}
+.pdf-error p{margin-bottom:8px}
+@media(max-width:600px){.pdf-page-controls{gap:6px}.pdf-page-controls [role=status]{flex-basis:100%;text-align:center;order:4}}
 .pdf-page-controls button:disabled{opacity:.4;cursor:default}
-.pdf-loading{text-align:center;color:var(--ink)}
+.pdf-loading{text-align:center;color:#333}
+.scaled-image.reference-image{position:relative;padding:0;display:block;min-width:0;flex-shrink:0}
+.scaled-image.reference-image img{position:absolute;left:50%;top:50%;max-width:none;max-height:none;object-fit:contain}
 
 /* Creator identity stays secondary to the Black Wire mark. */
 .creator-credit{display:flex;flex-direction:column;gap:7px}.creator-credit>a{display:inline-flex;align-items:center;gap:5px;font:500 12px/1.5 var(--font-body,system-ui);text-decoration:none}.sidebar .creator-credit>a{color:var(--muted)}.creator-credit>a:hover{text-decoration:underline}.sidebar-valleytech{display:flex;align-items:center;gap:10px;margin:14px 0 10px}.sidebar-valleytech img{width:31px;height:38px;object-fit:contain;background:var(--surface);border-radius:3px;padding:3px}.sidebar-valleytech span{font-size:9px;letter-spacing:1px;color:var(--muted);line-height:1.5}.sidebar .signature{margin-top:10px}.footer-maker{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.footer-maker img{height:27px;width:25px;object-fit:contain}.footer-maker a{display:inline-flex;align-items:center;gap:4px;color:inherit}.search-hint{font-size:12px;color:var(--ink);line-height:1.6;margin:12px 0 0}.about-signature>a{font-size:14px}.sidebar-bottom{padding-top:12px}@media(max-height:860px) and (min-width:901px){.sidebar{overflow-y:auto}.sidebar-bottom{position:static;margin-top:auto}.browse-label{margin-top:20px}}

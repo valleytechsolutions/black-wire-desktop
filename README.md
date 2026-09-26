@@ -17,7 +17,13 @@
 
 Find **ESP32, Arduino, Raspberry Pi, RP2040/RP2350, board pinouts, OLED/LCD/e-paper displays, sensors and maker modules**. Search the exact model, inspect the original source, check its revision and keep useful boards saved locally. Hardware coverage and missing documentation are explicit.
 
-## New in 0.6.0
+## New in 0.6.1
+
+- PDF touch scrolling, intrinsic page rotation, direct page selection and retry after a failed load. High zoom uses a bounded canvas allocation.
+- Zoomed, rotated images keep all corners reachable; malformed saved measurements cannot crash the workbench or overwrite saved data.
+- Two newly tracked SparkFun ESP32 models and eight source reference entries in collection **2026.09.6**. [Verification and remaining limits](docs/RELEASE-0.6.1.md).
+
+## Introduced in 0.6.0
 
 - **Dark mode by default:** warm charcoal, gold highlights and the official red Black Wire logo. Light mode uses a warm paper palette; your choice persists locally.
 - **A redesigned workbench:** a circuit-inspired opening panel, consistent controls and readable dark viewers, tables and power tools. Reference images keep their original colors.
@@ -25,7 +31,7 @@ Find **ESP32, Arduino, Raspberry Pi, RP2040/RP2350, board pinouts, OLED/LCD/e-pa
 - **Better discovery:** useful titles and descriptions, canonical links, social previews and a sitemap. GitHub wiki pages and issue templates make corrections and contributions easier.
 - **Useful edge-case fixes:** saved theme synchronization across tabs, a clear fallback when storage is blocked, and direct links to undocumented board records.
 
-The collection remains **2026.09.5**: 2,405 board/device listings and 486 maker listings, including families and shared records. A physical source is not an independently approved all-pin reference. [Coverage audit](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/PINOUT_COVERAGE.md).
+The current collection is **2026.09.6**: 2,407 board/device listings and 486 maker listings, including families and shared records. A physical source is not an independently approved all-pin reference. [Coverage audit](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/PINOUT_COVERAGE.md).
 
 ## Your board. Its pins. One place.
 
@@ -45,7 +51,7 @@ Built for a student's first breadboard, an educator's lab, a hobbyist's parts dr
 
 ### A growing library
 
-**3,003 reference entries · 1,367 board pinout source image entries · 60 brands/source groups.** There are 1,688 populated catalog records, including shared references and unreviewed source products. This is a collection snapshot, not a claim to cover every board ever made.
+**3,011 reference entries · 1,369 board pinout source image entries · 60 brands/source groups.** There are 1,693 populated catalog records, including shared references and unreviewed source products. This is a collection snapshot, not a claim to cover every board ever made.
 
 ESP32 variants including C5/C6/S3, RP2040/RP2350, CYD displays, Arduino, Teensy, Raspberry Pi, other SBCs, radio boards and GPIO devices are indexed separately where their identities are known. Chip-package references are labeled separately from board pinouts.
 
@@ -55,7 +61,7 @@ ESP32 variants including C5/C6/S3, RP2040/RP2350, CYD displays, Arduino, Teensy,
 
 Browse handhelds, radios, wearables, displays, cameras and controllers. Search T-Embed, T-Beam, Cardputer or Flipper Zero using the same dash-tolerant search. In-development documentation is labeled; missing pinout images stay in a documentation-watch list.
 
-The guide is **First Edition / 2026**, with digital collection snapshot **2026.09.5**. App updates and collection snapshots do not advance the annual book edition. See [publication workflow](docs/MAINTENANCE.md).
+The guide is **First Edition / 2026**, with digital collection snapshot **2026.09.6**. App updates and collection snapshots do not advance the annual book edition. See [publication workflow](docs/MAINTENANCE.md).
 
 ## Look closer
 

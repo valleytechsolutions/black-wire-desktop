@@ -2,11 +2,12 @@ import {chromium,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 const guide='https://valleytech-black-wire-guide.pages.dev/';
 const store='https://valleytechsolutions.tech/pages/bwm-technical-reference-guide';
+const expected=JSON.parse(await fs.readFile('data/library-source.json','utf8'));
 const browser=await chromium.launch();
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000}});
  await page.goto(guide);await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible();
- const c=await page.evaluate(()=>fetch('catalog.json').then(r=>r.json()));expect(c.editionInfo.snapshot).toBe('2026.09.5');expect(c.stats.makerRecords).toBe(486);
+ const c=await page.evaluate(()=>fetch('catalog.json').then(r=>r.json()));expect(c.editionInfo.snapshot).toBe(expected.snapshot);expect(c.stats.makerRecords).toBe(486);
  await page.getByRole('combobox',{name:'Search boards and references'}).fill('teensy-4.1');await page.keyboard.press('Escape');await page.getByRole('button',{name:'View Teensy 4.1 references',exact:true}).click();
  await expect.poll(()=>page.locator('.scaled-image img').evaluate(i=>i.complete&&i.naturalWidth>0)).toBe(true);
  await page.keyboard.press('Escape');
