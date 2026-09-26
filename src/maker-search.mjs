@@ -13,7 +13,7 @@ const identity=value=>makerWords(value).join('');
 function index(part){
  if(cache.has(part))return cache.get(part);
  const facts=[part.category,part.subcategory,part.technology,...(part.interfaces||[]),...(part.controllers||[]),part.resolution,
-  part.diagonalInches!=null?String(part.diagonalInches):'',...(part.tags||[]),...(part.pinLabels||[])];
+  part.diagonalInches!=null?String(part.diagonalInches):'',...(part.tags||[]),...(part.pinLabels||[]),...(part.pinReferences||[]).flatMap(r=>r.pins.flatMap(p=>[p.label,p.purpose]))];
  const fields=[part.name,part.brand,...(part.aliases||[]),...facts];
  const idx={name:identity(part.name),aliases:(part.aliases||[]).map(identity),controllers:(part.controllers||[]).map(identity),tokens:new Set(fields.flatMap(makerWords)),words:fields.map(v=>makerWords(v).join(' '))};
  idx.tokens.add('module');
@@ -28,13 +28,14 @@ function termMatch(idx,term){
  if(/\d/.test(term))return false;
  return term.length>=3&&[...idx.tokens].some(word=>word.startsWith(term));
 }
-export function searchMakerParts(parts,{query='',category='',brand='',technology='',interface:bus='',size='',identityKind='',documentedOnly=false,imagesOnly=false,savedOnly=false,favorites=[]}={}){
+export function searchMakerParts(parts,{query='',category='',brand='',technology='',interface:bus='',size='',identityKind='',documentedOnly=false,imagesOnly=false,pinoutsOnly=false,savedOnly=false,favorites=[]}={}){
  const terms=makerWords(query),q=identity(query);
  if(query.trim()&&!terms.length)return [];
  return parts.filter(p=>{
   if(category&&p.category!==category||brand&&p.brand!==brand||technology&&p.technology!==technology||bus&&!p.interfaces?.includes(bus)||size&&String(p.diagonalInches)!==size||identityKind&&p.identityKind!==identityKind)return false;
   if(documentedOnly&&p.documentationStatus!=='Manufacturer documentation recorded')return false;
   if(imagesOnly&&!p.imageCount)return false;
+  if(pinoutsOnly&&!p.pinoutCoverage?.physicalCount)return false;
   if(savedOnly&&!favorites.includes(p.id))return false;
   const idx=index(p);
   return !q||[idx.name,...idx.aliases,...idx.controllers].includes(q)||terms.every(t=>termMatch(idx,t));

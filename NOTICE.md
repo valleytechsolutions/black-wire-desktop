@@ -21,3 +21,7 @@ Original guide material uses CC BY 4.0 within the scope described in LICENSING.m
 This is an example, not a mandatory wording or a requirement to advertise or subscribe. Give attribution in a reasonable manner for the medium under the applicable license. Do not imply the creator endorses your changes.
 
 Manufacturer and community reference artwork must retain the original creators' attribution and applicable terms. Crediting Black Wire alone is not sufficient for those works. See the per-asset ledger and ATTRIBUTION.md.
+
+## Annotated connector models / 2026.09.5
+
+46 connector sheets embed unchanged Adafruit Fritzing breadboard illustrations and add Black Wire location callouts, legends and layout. These adapted sheets and their rendered previews are CC BY-SA 3.0, with Adafruit and Black Wire credited. Source model and illustration hashes, exact upstream commit, license links and review limits are recorded per asset. The K callouts are editorial keys, not GPIO or physical header numbers. See the collection catalog/pin-connector-models.json and LICENSES/Adafruit-CC-BY-SA-3.0.txt. Signal-name explanations do not independently verify electrical limits.

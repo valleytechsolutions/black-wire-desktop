@@ -21,7 +21,7 @@ try{
  const pdfStatus=await page.evaluate(async file=>{const r=await fetch('/library/'+file);return {status:r.status,type:r.headers.get('content-type'),signature:new TextDecoder().decode((await r.arrayBuffer()).slice(0,5))};},pdf.file);
  expect(pdfStatus.status).toBe(200);expect(pdfStatus.signature).toBe('%PDF-');expect(pdfStatus.type).toContain('application/pdf');
  const invalid=await page.evaluate(async()=>{try{await window.blackwire.openOriginal('../package.json');return false;}catch{return true;}});expect(invalid).toBe(true);
- await page.getByRole('textbox',{name:'Search boards and references'}).fill('teensy 4.1');
+ await page.getByRole('combobox',{name:'Search boards and references'}).fill('teensy 4.1');await page.keyboard.press('Escape');
  await page.getByRole('button',{name:'View Teensy 4.1 references',exact:true}).click();
  let dialog=page.getByRole('dialog',{name:'Teensy 4.1 references'});
  await expect.poll(()=>dialog.locator('.scaled-image img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
@@ -35,7 +35,7 @@ try{
  await page.keyboard.press('Escape');await page.reload();
  await page.getByRole('button',{name:'Saved boards',exact:false}).click();await expect(page.locator('.board-card')).toHaveCount(1);
  await page.getByRole('button',{name:'Board library',exact:false}).click();
- await page.getByRole('textbox',{name:'Search boards and references'}).fill(pdfBoard.name);
+ await page.getByRole('combobox',{name:'Search boards and references'}).fill(pdfBoard.name);await page.keyboard.press('Escape');
  await page.getByRole('button',{name:`View ${pdfBoard.name} references`,exact:true}).click();
  dialog=page.getByRole('dialog',{name:`${pdfBoard.name} references`});
  const label=pdf.label;await dialog.locator('.asset-list button').filter({hasText:label}).first().click();
@@ -56,16 +56,16 @@ try{
  await expect(page.locator('.license-notices pre').nth(1)).toContainText('Creative Commons Attribution 4.0 International Public License');
  await page.screenshot({path:path.join(qa,'native-licenses.png')});
  await page.getByRole('button',{name:/Displays & modules/}).click();
- await page.getByRole('textbox',{name:'Search boards and references'}).fill('BME280');
+ await page.getByRole('combobox',{name:'Search boards and references'}).fill('BME280');await page.keyboard.press('Escape');
  await expect(page.locator('.maker-card').first()).toContainText('BME280');
  await page.locator('.maker-card').filter({hasText:'Adafruit'}).getByRole('button',{name:/Open maker record/}).first().click();
- await expect(page.getByRole('dialog')).toContainText('Documented pin labels');
+ await expect(page.getByRole('dialog')).toContainText('Pin names & purpose');
  await expect.poll(()=>page.locator('.maker-image-stage img').evaluate(im=>im.complete&&im.naturalWidth>100)).toBe(true);
  const maker=catalog.makerParts.find(p=>p.brand==='Adafruit'&&p.name.includes('BME280'));
- const makerSave=path.join(qa,'saved-maker-original.jpg');
+ const makerSave=path.join(qa,'saved-maker-original.svg');
  await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},makerSave);
  await page.getByRole('dialog').getByRole('button',{name:'Save original',exact:true}).click();
- await expect.poll(async()=>{try{return crypto.createHash('sha256').update(await fs.readFile(makerSave)).digest('hex');}catch{return '';}}).toBe(maker.assets[0].hash);
+ await expect.poll(async()=>{try{return crypto.createHash('sha256').update(await fs.readFile(makerSave)).digest('hex');}catch{return '';}}).toBe(maker.assets.find(a=>a.type==='pinout image').hash);
  await page.keyboard.press('Escape');
  await page.getByRole('button',{name:'Reset search & filters'}).click();
  await page.evaluate(()=>window.scrollTo(0,0));

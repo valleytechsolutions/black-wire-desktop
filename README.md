@@ -11,6 +11,12 @@
 
 ![Black Wire board library, with manufacturer and microcontroller filters](docs/screenshots/library.png)
 
+## New in 0.5.0 / pin references and unified search
+
+The search bar now searches boards, devices and maker parts together, including documentation gaps. Exact models rank first; use keyboard navigation, category scope and the pinout-source filter. Linked board/maker results are deduplicated. The interface uses a quieter navy, slate and teal layout with clearer coverage labels.
+
+Reference galleries prioritize physical pinouts, separate reference categories, fit tall sheets, and retain source credits and original downloads. Searchable pin-purpose tables accompany 70 maker records. The collection adds 46 annotated connector-model sheets and 58 manufacturer pin tables. Maker coverage is 151 with physical pinout sources and 30 with functions only; 305 still need both. This release does not claim all pins or every device is complete. [Full coverage audit](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/PINOUT_COVERAGE.md).
+
 ## New in 0.4.0 / visual maker references
 
 Maker cards now show image previews. Open a record to browse its gallery, zoom, see credits and save original-resolution files. The image filter finds records with visual references. The catalog has 486 maker records, 467 with images, including 327 newly collected unique originals and 58 physical connector/pinout source images. Photos, schematics, partial maps and review limits are labeled separately.
@@ -45,7 +51,7 @@ Built for a student's first breadboard, an educator's lab, a hobbyist's parts dr
 
 ### A growing library
 
-**3,003 reference entries · 1,365 reviewed physical pinout images · 60 brands/source groups.** There are 1,688 populated catalog records, including shared references and unreviewed source products. This is a collection snapshot, not a claim to cover every board ever made.
+**3,003 reference entries · 1,367 board pinout source image entries · 60 brands/source groups.** There are 1,688 populated catalog records, including shared references and unreviewed source products. This is a collection snapshot, not a claim to cover every board ever made.
 
 ESP32 variants including C5/C6/S3, RP2040/RP2350, CYD displays, Arduino, Teensy, Raspberry Pi, other SBCs, radio boards and GPIO devices are indexed separately where their identities are known. Chip-package references are labeled separately from board pinouts.
 
@@ -55,7 +61,7 @@ ESP32 variants including C5/C6/S3, RP2040/RP2350, CYD displays, Arduino, Teensy,
 
 Browse handhelds, radios, wearables, displays, cameras and controllers. Search T-Embed, T-Beam, Cardputer or Flipper Zero using the same dash-tolerant search. In-development documentation is labeled; missing pinout images stay in a documentation-watch list.
 
-The guide is **First Edition / 2026**, with digital collection snapshot **2026.09.2**. App updates and collection snapshots do not advance the annual book edition. See [publication workflow](docs/MAINTENANCE.md).
+The guide is **First Edition / 2026**, with digital collection snapshot **2026.09.5**. App updates and collection snapshots do not advance the annual book edition. See [publication workflow](docs/MAINTENANCE.md).
 
 ## Look closer
 
@@ -71,11 +77,11 @@ The power desk includes **13 sourced profiles and 22 published operating observa
 
 Check [Releases](https://github.com/valleytechsolutions/black-wire-desktop/releases) for the actual available assets and validation status. An absent platform asset means that platform has not been released.
 
-**Available now: [Windows x64 preview 0.2.0](https://github.com/valleytechsolutions/black-wire-desktop/releases/tag/v0.2.0).** Linux and macOS build targets are provided, but verified downloads for those systems have not been published. For images and PDFs without an application, use the separate [pinout collection releases](https://github.com/valleytechsolutions/black-wire-pinouts/releases); those ZIP files can be read on all three operating systems.
+**Available now: [Windows x64 preview 0.5.0](https://github.com/valleytechsolutions/black-wire-desktop/releases/tag/v0.5.0).** Linux and macOS build targets are provided, but verified downloads for those systems have not been published. For images and PDFs without an application, use the separate [pinout collection releases](https://github.com/valleytechsolutions/black-wire-pinouts/releases); those ZIP files can be read on all three operating systems.
 
 | Platform | Current status |
 |---|---|
-| Windows x64 | 0.2.0 renderer tested in the browser; installer and bundled library verified. Native installation of this version on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
+| Windows x64 | 0.5.0 browser and packaged-app checks cover pin references, search, images, PDFs and saved data. Native installation of this version on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
 | Linux x64 / ARM64 | Packaging supported; native launch validation remains outstanding. |
 | macOS Intel / Apple Silicon | Build targets provided; a Mac, Developer ID signing and notarization are needed for a distributable release. No verified Mac binary is claimed. |
 

@@ -17,7 +17,7 @@ try{
  const initialBytes=await page.evaluate(()=>performance.getEntriesByType('resource').reduce((n,r)=>n+(r.decodedBodySize||0),0));
  expect(initialBytes).toBeLessThan(15*1024*1024);
  await fs.mkdir('data/qa/web',{recursive:true});await page.screenshot({path:'data/qa/web/browser-guide.png'});
- await page.getByRole('textbox',{name:'Search boards and references'}).fill('teensy-4.1');
+ await page.getByRole('combobox',{name:'Search boards and references'}).fill('teensy-4.1');await page.keyboard.press('Escape');
  await expect(page.locator('.board-card')).toHaveCount(1);
  await page.getByRole('button',{name:'View Teensy 4.1 references',exact:true}).click();
  const dialog=page.getByRole('dialog');await expect.poll(()=>dialog.locator('.scaled-image img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
@@ -41,7 +41,7 @@ try{
  await expect(page.locator('.license-notices pre').nth(1)).toContainText('Creative Commons Attribution 4.0 International Public License');
  await page.route('**/embed-test',route=>route.fulfill({contentType:'text/html',body:`<h1>Store page integration test</h1><iframe title="BWM guide" src="${url}" style="width:100%;height:900px" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox"></iframe>`}));
  await page.goto('http://127.0.0.1:5187/embed-test');const frame=page.frameLocator('iframe');
- await expect(frame.getByRole('heading',{name:/Know your board/})).toBeVisible();await frame.getByRole('textbox',{name:'Search boards and references'}).fill('ESP32-C5');await expect(frame.locator('.board-card').first()).toBeVisible();
+ await expect(frame.getByRole('heading',{name:/Know your board/})).toBeVisible();await frame.getByRole('combobox',{name:'Search boards and references'}).fill('ESP32-C5');await expect(frame.locator('.board-card').first()).toBeVisible();
  await page.goto(url);await page.setViewportSize({width:390,height:844});await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  expect(errors).toEqual([]);expect(failed).toEqual([]);
  const report={passed:true,base,initialDecodedBytes:initialBytes,references:catalog.stats.referenceEntries,checks:['subpath assets','on-demand originals','dash search','image rendering','original download','browser bookmarks','direct board links','PDF pages','power desk','sandboxed embed','mobile layout','production CSP']};

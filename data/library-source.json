@@ -1,13 +1,15 @@
 {
   "repository": "valleytechsolutions/black-wire-pinouts",
-  "commit": "9090ca3a0ae0ee14c1704e6b9ba5ff98623e0dad",
+  "commit": "dbc17fe5bd03599dbec358d1c0b9978db40f2aa2",
   "edition": "First Edition / 2026",
-  "snapshot": "2026.09.4",
+  "snapshot": "2026.09.5",
   "references": 3003,
-  "pinouts": 1365,
+  "pinouts": 1367,
   "devicesWithFiles": 310,
   "makerRecords": 486,
   "makerDocumented": 196,
   "makerWithImages": 467,
-  "makerNewMedia": 327
+  "makerNewMedia": 388,
+  "makerWithPinoutSources": 151,
+  "makerWithPinFunctions": 70
 }

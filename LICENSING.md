@@ -13,3 +13,5 @@ Copyright 2026 **Kal (Your Pal Kal) / Valleytech Solutions**.
 The original parts of `data/power-profiles.json` and catalog editorial records use CC BY 4.0. Quoted source material and third-party content retain their existing terms. UI screenshots can contain several of the categories above; they are not blanket-licensed as wholly original artwork.
 
 See [NOTICE.md](NOTICE.md) for the credit statement and an example. These scope notes identify the applicable standard licenses; they do not add restrictions to them. Exceptions, public-domain material and uses not requiring permission remain unaffected. The license texts control; no guarantee of rights clearance is made for third-party material.
+
+Annotated Adafruit connector sheets and their previews are adaptations under **CC BY-SA 3.0**, as identified in their per-asset records. Their license is not replaced by the general MIT or CC BY 4.0 grants above. The unchanged manufacturer illustrations are retained separately with hashes and source links.
