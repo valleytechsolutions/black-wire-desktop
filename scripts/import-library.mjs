@@ -9,6 +9,7 @@ if(source===output)throw new Error('Source and destination libraries must differ
 const paths=JSON.parse(await fs.readFile(path.join(source,'manifest.json'),'utf8'));
 const catalog=JSON.parse(await fs.readFile(path.join(source,'catalog.json'),'utf8'));
 const hashes=new Map(catalog.boards.flatMap(b=>b.assets.map(a=>[a.file,a.hash])));
+for(const p of catalog.makerParts||[])for(const a of p.assets||[])hashes.set(a.file,a.hash);
 for(const rel of [...new Set([...paths,'manifest.json'])]){
  if(typeof rel!=='string'||rel.includes('\\')||path.isAbsolute(rel)||rel.split('/').some(p=>!p||p==='..'||p==='.')||rel.includes(':'))throw new Error('Unsafe manifest path');
  const from=path.join(source,rel),to=path.join(output,rel);

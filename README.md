@@ -11,6 +11,14 @@
 
 ![Black Wire board library, with manufacturer and microcontroller filters](docs/screenshots/library.png)
 
+## New in 0.4.0 / visual maker references
+
+Maker cards now show image previews. Open a record to browse its gallery, zoom, see credits and save original-resolution files. The image filter finds records with visual references. The catalog has 486 maker records, 467 with images, including 327 newly collected unique originals and 58 physical connector/pinout source images. Photos, schematics, partial maps and review limits are labeled separately.
+
+29 power records add buck, boost, buck-boost, TP4056/TP4057 charger variants, protection, solar, UPS and fuel-gauge coverage. Search recognizes step-up/step-down and spaced controller names. This is growing coverage, not a worldwide-completeness claim.
+
+![TP4056 module gallery with physical terminal labels](docs/screenshots/maker-gallery.png)
+
 ## New in 0.3.0 / maker parts desk
 
 Find displays, sensors, buttons and modules alongside the board library. The new intake contains 457 records, with 173 manufacturer documentation records, linked existing references and explicit generic identification tasks. Filter by function, interface, display technology, size or manufacturer; search controller codes and resolutions. Each record shows its evidence and missing review work. These records are not 457 complete pinout sheets.

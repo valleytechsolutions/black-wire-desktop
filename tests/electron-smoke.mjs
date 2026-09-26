@@ -60,11 +60,17 @@ try{
  await expect(page.locator('.maker-card').first()).toContainText('BME280');
  await page.locator('.maker-card').filter({hasText:'Adafruit'}).getByRole('button',{name:/Open maker record/}).first().click();
  await expect(page.getByRole('dialog')).toContainText('Documented pin labels');
+ await expect.poll(()=>page.locator('.maker-image-stage img').evaluate(im=>im.complete&&im.naturalWidth>100)).toBe(true);
+ const maker=catalog.makerParts.find(p=>p.brand==='Adafruit'&&p.name.includes('BME280'));
+ const makerSave=path.join(qa,'saved-maker-original.jpg');
+ await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},makerSave);
+ await page.getByRole('dialog').getByRole('button',{name:'Save original',exact:true}).click();
+ await expect.poll(async()=>{try{return crypto.createHash('sha256').update(await fs.readFile(makerSave)).digest('hex');}catch{return '';}}).toBe(maker.assets[0].hash);
  await page.keyboard.press('Escape');
  await page.getByRole('button',{name:'Reset search & filters'}).click();
  await page.evaluate(()=>window.scrollTo(0,0));
  await page.screenshot({path:path.join(qa,'native-makers.png')});
- expect(catalog.stats.makerRecords).toBe(457);
+ expect(catalog.stats.makerRecords).toBe(486);
  expect(errors).toEqual([]);
  const report={packaged,catalog:catalog.stats,pdf:pdfBoard.name,checks:['custom protocol','renderer isolation','PDF delivery','offline image decoding','path whitelist','native save original hash','saved boards persistence','PDF viewer'],qa,passed:true};
  await fs.writeFile(path.join(qa,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

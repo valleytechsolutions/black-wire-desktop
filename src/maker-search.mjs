@@ -1,11 +1,12 @@
 // Search facts identify hardware; they never infer electrical compatibility.
 const cache=new WeakMap();
-const synonyms={modules:'module',screen:'display',screens:'display',displays:'display',epd:'epaper',eink:'epaper',iic:'i2c',twi:'i2c',buttons:'button',knob:'encoder',rotary:'encoder',pot:'potentiometer',sensors:'sensor',humidity:'humidity',temp:'temperature'};
+const synonyms={modules:'module',screen:'display',screens:'display',displays:'display',epd:'epaper',eink:'epaper',iic:'i2c',twi:'i2c',buttons:'button',knob:'encoder',rotary:'encoder',pot:'potentiometer',sensors:'sensor',humidity:'humidity',temp:'temperature',stepup:'boost',stepdown:'buck',charger:'charging',chargers:'charging'};
 export function makerWords(value){
  const text=String(value??'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
+  .replace(/step[\s-]*up/g,'boost').replace(/step[\s-]*down/g,'buck')
   .replace(/e[\s-]*(?:paper|ink)/g,'epaper').replace(/i[\s-]*2[\s-]*c/g,'i2c')
   .replace(/(\d+)\s*(?:x|×|by)\s*(\d+)/g,'$1x$2')
-  .replace(/\b(ssd|sh|st|ili|gc|pcd|hd|pcf|ht|tm|ky|bme|bmp|ina|mcp|ads|apds|drv|max|pca)[\s_-]+(?=\d)/g,'$1');
+  .replace(/\b(ssd|sh|st|ili|gc|pcd|hd|pcf|ht|tm|ky|bme|bmp|ina|mcp|ads|apds|drv|max|pca|tp|xl|mt|lm|mp|cn|ip|bq)[\s_-]+(?=\d)/g,'$1');
  return (text.match(/[a-z0-9]+(?:\.[0-9]+)*|\++/g)||[]).filter(t=>!['inch','inches','in'].includes(t)).map(t=>synonyms[t]||t);
 }
 const identity=value=>makerWords(value).join('');
@@ -27,12 +28,13 @@ function termMatch(idx,term){
  if(/\d/.test(term))return false;
  return term.length>=3&&[...idx.tokens].some(word=>word.startsWith(term));
 }
-export function searchMakerParts(parts,{query='',category='',brand='',technology='',interface:bus='',size='',identityKind='',documentedOnly=false,savedOnly=false,favorites=[]}={}){
+export function searchMakerParts(parts,{query='',category='',brand='',technology='',interface:bus='',size='',identityKind='',documentedOnly=false,imagesOnly=false,savedOnly=false,favorites=[]}={}){
  const terms=makerWords(query),q=identity(query);
  if(query.trim()&&!terms.length)return [];
  return parts.filter(p=>{
   if(category&&p.category!==category||brand&&p.brand!==brand||technology&&p.technology!==technology||bus&&!p.interfaces?.includes(bus)||size&&String(p.diagonalInches)!==size||identityKind&&p.identityKind!==identityKind)return false;
   if(documentedOnly&&p.documentationStatus!=='Manufacturer documentation recorded')return false;
+  if(imagesOnly&&!p.imageCount)return false;
   if(savedOnly&&!favorites.includes(p.id))return false;
   const idx=index(p);
   return !q||[idx.name,...idx.aliases,...idx.controllers].includes(q)||terms.every(t=>termMatch(idx,t));
