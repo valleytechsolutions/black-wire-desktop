@@ -13,4 +13,4 @@ jobs:
         with:
           node-version: 24
           package-manager-cache: false
-      - run: node --test tests/domain.test.mjs
+      - run: node --test tests/*.test.mjs

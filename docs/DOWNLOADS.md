@@ -2,7 +2,7 @@
 
 Use the assets attached to a tagged [GitHub release](https://github.com/valleytechsolutions/black-wire-desktop/releases), not the automatic source ZIP as an installer. Match your OS and CPU architecture. Release notes must state the tested platforms and whether each artifact is signed.
 
-## Current maker preview / 0.5.0
+## Current workbench preview / 0.6.0
 
 Windows x64 installer, **unsigned**, with collection snapshot 2026.09.5 and 486 maker intake records. The packaged app passed native image, PDF, persistence and maker-search checks. A clean-machine installer run, code signing and new Linux/macOS binaries are not claimed for this preview.
 
@@ -23,7 +23,7 @@ macOS distribution requires Developer ID signing and Apple notarization. A local
 Compare the downloaded file's SHA-256 to the `SHA256SUMS.txt` attached to the **same release**:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath '.\Black-Wire-0.5.0-windows-x64-setup.exe'
+Get-FileHash -Algorithm SHA256 -LiteralPath '.\Black-Wire-0.6.0-windows-x64-setup.exe'
 ```
 
 ```sh

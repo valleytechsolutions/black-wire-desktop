@@ -11,6 +11,12 @@ const errors=[];
 try{
  const page=await app.firstWindow();page.on('pageerror',e=>errors.push(e.message));
  await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible({timeout:60000});
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await expect(page.locator('.logo-tile .brand-dark')).toBeVisible();
+ await page.getByRole('button',{name:'Light mode',exact:true}).click();await page.reload();
+ await expect(page.getByRole('heading',{name:/Know your board/})).toBeVisible();
+ await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await page.getByRole('button',{name:'Dark mode',exact:true}).click();
  expect(page.url()).toBe('blackwire://app/index.html');
  expect(await page.evaluate(()=>typeof window.require)).toBe('undefined');
  expect(await page.evaluate(()=>window.blackwire.platform)).toBe('win32');

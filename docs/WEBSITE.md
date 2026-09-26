@@ -8,13 +8,13 @@ Full-screen guide: [valleytech-black-wire-guide.pages.dev](https://valleytech-bl
 
 Menu label: **BWM-Technical Reference Guide**
 
-Published and checked on September 25, 2026. The guide is linked from the store navigation and footer. Cloudflare Pages hosts the browser application and reference files.
+The guide was initially published on September 25, 2026. The guide is linked from the store navigation and footer. Cloudflare Pages hosts the browser application and reference files.
 
-## Maker update / 0.3.0
+## Workbench update / 0.6.0
 
-The production guide now includes **Displays & modules**, with 457 intake records and 173 manufacturer documentation records. Collection snapshot: **2026.09.3**. Search accepts controller codes, function, resolution, exact display size and interface aliases. Source records distinguish documentation, missing review, generic families and existing file references.
+The web and desktop apps share a default charcoal-and-gold dark theme and a persistent Light mode. The current title is **The Black Wire Maker's Technical Reference Guide**. Collection snapshot **2026.09.5** is unchanged; this is an interface and documentation release.
 
-Deployment output: 6,278 files / 1,912,165,604 bytes. Largest asset remains 15,861,269 bytes. Production search, record links, images, PDF pagination, device filters and the Shopify iframe were verified, including a 390-pixel viewport. The packaged Windows app was also tested. The source artwork research cache and unfinished book PDF are excluded from the web bundle.
+The public [reference wiki](https://valleytech-black-wire-guide.pages.dev/wiki/) includes eight guides plus board-family and maker-category directories. All 32 wiki/directory pages are static HTML. The root app has crawlable fallback content, and the site includes canonical metadata, a social card, structured data, robots.txt and a 33-URL sitemap. See [discovery maintenance](DISCOVERABILITY.md).
 
 ## How it fits into the store
 
@@ -42,7 +42,7 @@ The `_headers` file uses the syntax supported by Cloudflare Pages. Other hosts n
 
 ## Hosting requirements
 
-The current build contains **6,247 files / 1.89 GB**, with a largest file of **15.86 MB**. The build report checks the 20,000-file / 25-MiB-per-file limits documented for Cloudflare Pages direct upload. This build deployed successfully. Recheck account and platform limits before future editions; larger collections may require separate object storage/CDN hosting for originals.
+The 0.6.0 build contains **7,186 files / 2.16 GB**, with a largest file of **15.86 MB**. The build report checks the 20,000-file / 25-MiB-per-file limits documented for Cloudflare Pages direct upload. This build deployed successfully. Recheck account and platform limits before future editions; larger collections may require separate object storage/CDN hosting for originals.
 
 The Cloudflare Pages project is `valleytech-black-wire-guide`, with production branch `main`. GitHub remains the source/release location; the web app does not depend on GitHub raw-file URLs as a production image CDN. Deploy only the browser output, using an authenticated Wrangler installation:
 
@@ -60,7 +60,7 @@ After deployment, test its real HTTPS URL, images, PDFs, mobile layout, download
 node scripts/prepare-shopify-page.mjs https://valleytech-black-wire-guide.pages.dev/
 ```
 
-This generates `data/qa/shopify/guide-page.html` from `integrations/shopify/guide-page.template.html`. Use the **BWM-Technical Reference Guide** title and `bwm-technical-reference-guide` page handle. Publish and add the navigation item only once the embedded guide works. The placeholder in the template is not a deployable address.
+This generates `data/qa/shopify/guide-page.html` from `integrations/shopify/guide-page.template.html`. Use the **The Black Wire Maker's Technical Reference Guide** title and `bwm-technical-reference-guide` page handle. Publish and add the navigation item only once the embedded guide works. The placeholder in the template is not a deployable address.
 
 The page body contains a responsive wrapper that gives the guide more room within Shopify's narrow page layout. It adjusts only this guide section and requires no live theme-file edits. Recheck desktop and phone widths after theme changes.
 

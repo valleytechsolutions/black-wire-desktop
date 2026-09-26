@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/brand/black-wire.png" width="110" alt="Black Wire logo"> &nbsp;&nbsp;
+  <picture><source media="(prefers-color-scheme: dark)" srcset="public/brand/black-wire-red.png"><img src="docs/brand/black-wire.png" width="110" alt="Black Wire logo"></picture> &nbsp;&nbsp;
   <img src="docs/brand/valleytech.png" width="80" alt="Valleytech Solutions logo">
 </p>
-<h1 align="center">Black Wire<br>Technical Reference Guide</h1>
+<h1 align="center">The Black Wire Maker's<br>Technical Reference Guide</h1>
 <p align="center"><strong>Know your board. Make the connection.</strong><br>A Valleytech Solutions project, made for the workbench.</p>
 <p align="center">Makers · Educators · Students · Hobbyists · Engineers</p>
 
@@ -11,27 +11,21 @@
 
 ![Black Wire board library, with manufacturer and microcontroller filters](docs/screenshots/library.png)
 
-## New in 0.5.0 / pin references and unified search
+## Open the reference workbench
 
-The search bar now searches boards, devices and maker parts together, including documentation gaps. Exact models rank first; use keyboard navigation, category scope and the pinout-source filter. Linked board/maker results are deduplicated. The interface uses a quieter navy, slate and teal layout with clearer coverage labels.
+**[Use the web app](https://valleytech-black-wire-guide.pages.dev/) · [Read the wiki](https://valleytech-black-wire-guide.pages.dev/wiki/) · [Download Windows](https://github.com/valleytechsolutions/black-wire-desktop/releases/latest)**
 
-Reference galleries prioritize physical pinouts, separate reference categories, fit tall sheets, and retain source credits and original downloads. Searchable pin-purpose tables accompany 70 maker records. The collection adds 46 annotated connector-model sheets and 58 manufacturer pin tables. Maker coverage is 151 with physical pinout sources and 30 with functions only; 305 still need both. This release does not claim all pins or every device is complete. [Full coverage audit](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/PINOUT_COVERAGE.md).
+Find **ESP32, Arduino, Raspberry Pi, RP2040/RP2350, board pinouts, OLED/LCD/e-paper displays, sensors and maker modules**. Search the exact model, inspect the original source, check its revision and keep useful boards saved locally. Hardware coverage and missing documentation are explicit.
 
-## New in 0.4.0 / visual maker references
+## New in 0.6.0
 
-Maker cards now show image previews. Open a record to browse its gallery, zoom, see credits and save original-resolution files. The image filter finds records with visual references. The catalog has 486 maker records, 467 with images, including 327 newly collected unique originals and 58 physical connector/pinout source images. Photos, schematics, partial maps and review limits are labeled separately.
+- **Dark mode by default:** warm charcoal, gold highlights and the official red Black Wire logo. Light mode uses a warm paper palette; your choice persists locally.
+- **A redesigned workbench:** a circuit-inspired opening panel, consistent controls and readable dark viewers, tables and power tools. Reference images keep their original colors.
+- **A public reference wiki:** eight practical guides and catalog directories for every current board and maker listing. The wiki works without JavaScript; directory filtering is an optional enhancement.
+- **Better discovery:** useful titles and descriptions, canonical links, social previews and a sitemap. GitHub wiki pages and issue templates make corrections and contributions easier.
+- **Useful edge-case fixes:** saved theme synchronization across tabs, a clear fallback when storage is blocked, and direct links to undocumented board records.
 
-29 power records add buck, boost, buck-boost, TP4056/TP4057 charger variants, protection, solar, UPS and fuel-gauge coverage. Search recognizes step-up/step-down and spaced controller names. This is growing coverage, not a worldwide-completeness claim.
-
-![TP4056 module gallery with physical terminal labels](docs/screenshots/maker-gallery.png)
-
-## New in 0.3.0 / maker parts desk
-
-Find displays, sensors, buttons and modules alongside the board library. The new intake contains 457 records, with 173 manufacturer documentation records, linked existing references and explicit generic identification tasks. Filter by function, interface, display technology, size or manufacturer; search controller codes and resolutions. Each record shows its evidence and missing review work. These records are not 457 complete pinout sheets.
-
-[Open Displays & modules](https://valleytech-black-wire-guide.pages.dev/?tab=makers) · [Coverage roadmap](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/docs/MAKER_ROADMAP.md)
-
-![Displays and modules with interface, technology and size filters](docs/screenshots/makers.png)
+The collection remains **2026.09.5**: 2,405 board/device listings and 486 maker listings, including families and shared records. A physical source is not an independently approved all-pin reference. [Coverage audit](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/PINOUT_COVERAGE.md).
 
 ## Your board. Its pins. One place.
 
@@ -47,7 +41,7 @@ Built for a student's first breadboard, an educator's lab, a hobbyist's parts dr
 | Check the source | Keep source links, revision notes, coverage labels and hashes with each reference. |
 | Plan power | Read sourced voltage/current profiles and published observations; compare adapter ratings, estimate battery runtime and total power across voltage rails. |
 | Keep your work | Save boards and your own measurements locally; import/export JSON backups. |
-| Stay offline | No account, analytics or cloud sync. External source and YouTube links open only when selected. |
+| Stay offline | The desktop reference library is bundled locally. External source, wiki and YouTube links open only when selected. No account or cloud sync. |
 
 ### A growing library
 
@@ -77,11 +71,11 @@ The power desk includes **13 sourced profiles and 22 published operating observa
 
 Check [Releases](https://github.com/valleytechsolutions/black-wire-desktop/releases) for the actual available assets and validation status. An absent platform asset means that platform has not been released.
 
-**Available now: [Windows x64 preview 0.5.0](https://github.com/valleytechsolutions/black-wire-desktop/releases/tag/v0.5.0).** Linux and macOS build targets are provided, but verified downloads for those systems have not been published. For images and PDFs without an application, use the separate [pinout collection releases](https://github.com/valleytechsolutions/black-wire-pinouts/releases); those ZIP files can be read on all three operating systems.
+**Available now: [Windows x64 preview 0.6.0](https://github.com/valleytechsolutions/black-wire-desktop/releases/tag/v0.6.0).** Linux and macOS build targets are provided, but verified downloads for those systems have not been published. For images and PDFs without an application, use the separate [pinout collection releases](https://github.com/valleytechsolutions/black-wire-pinouts/releases); those ZIP files can be read on all three operating systems.
 
 | Platform | Current status |
 |---|---|
-| Windows x64 | 0.5.0 browser and packaged-app checks cover pin references, search, images, PDFs and saved data. Native installation of this version on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
+| Windows x64 | 0.6.0 browser and packaged-app checks cover themes, pin references, search, images, PDFs and saved data. Native installation of this version on a clean Windows machine still needs validation. Workshop builds are unsigned unless the release explicitly says otherwise. |
 | Linux x64 / ARM64 | Packaging supported; native launch validation remains outstanding. |
 | macOS Intel / Apple Silicon | Build targets provided; a Mac, Developer ID signing and notarization are needed for a distributable release. No verified Mac binary is claimed. |
 

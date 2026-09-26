@@ -1,0 +1,23 @@
+name: Application bug
+description: Report a search, display, accessibility or desktop problem.
+labels: [bug]
+body:
+  - type: input
+    id: environment
+    attributes:
+      label: App version, operating system and browser
+      placeholder: Web 0.6.0, Windows 11, Chrome
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce, expected result and actual result
+      description: Include the search term or public record link. For layout issues, include theme and window size. Exclude private workbench data.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Additional details or screenshot
+      description: Remove personal information and credentials before attaching anything.

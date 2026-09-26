@@ -1,0 +1,15 @@
+name: Workbench improvement
+description: Suggest a practical improvement for makers using the guide.
+body:
+  - type: textarea
+    id: task
+    attributes:
+      label: What are you trying to do at your workbench?
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: What change would help, and how would you know it works?
+    validations:
+      required: true
