@@ -19,6 +19,8 @@ The importer checks each original reference against the catalog SHA-256 before c
 pnpm test
 pnpm exec playwright install chromium
 pnpm test:ui
+pnpm build:web
+pnpm test:makers
 node scripts/verify-library.mjs
 ```
 
@@ -59,3 +61,7 @@ Use `pnpm build:web` and `pnpm test:web` for the browser edition. [Website integ
 
 On Windows, use a short checkout path (for example, `C:\src\black-wire-desktop`). NSIS can reject long template include paths inside pnpm's dependency store even when Node can read those files.
 
+
+Maker catalog maintenance: edit the collection repository's `catalog/maker-parts.json`, run `python tools/build-maker-index.py` and then `python tools/rebuild-indexes.py`. Pin the resulting collection commit before importing. Manufacturer documentation records are not complete physical pinout approvals.
+
+On Windows, NSIS may reject long pnpm template paths. Use a short checkout path for release builds; this is a build-path constraint, not a reason to change OS security settings.

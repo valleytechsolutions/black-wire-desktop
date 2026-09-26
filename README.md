@@ -11,6 +11,14 @@
 
 ![Black Wire board library, with manufacturer and microcontroller filters](docs/screenshots/library.png)
 
+## New in 0.3.0 / maker parts desk
+
+Find displays, sensors, buttons and modules alongside the board library. The new intake contains 457 records, with 173 manufacturer documentation records, linked existing references and explicit generic identification tasks. Filter by function, interface, display technology, size or manufacturer; search controller codes and resolutions. Each record shows its evidence and missing review work. These records are not 457 complete pinout sheets.
+
+[Open Displays & modules](https://valleytech-black-wire-guide.pages.dev/?tab=makers) · [Coverage roadmap](https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/docs/MAKER_ROADMAP.md)
+
+![Displays and modules with interface, technology and size filters](docs/screenshots/makers.png)
+
 ## Your board. Its pins. One place.
 
 Black Wire is an offline desktop workbench for the moment you need to know **what that pin does**. Find the exact board, open its original pinout, check its revision and source, and keep the references you use most within reach.

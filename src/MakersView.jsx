@@ -1,0 +1,48 @@
+import React,{useEffect,useMemo,useRef,useState} from 'react';
+import {Monitor,Search,ArrowUpRight,X,SlidersHorizontal,ExternalLink,BookOpen,Layers} from 'lucide-react';
+import {searchMakerParts,makerSuggestions} from './maker-search.mjs';
+import {webEdition} from './runtime.mjs';
+
+const kinds={'product-reference':'Product reference','manufacturer-family':'Manufacturer guide / family','collection-reference':'Existing collection reference','generic-family':'Generic family / identify first'};
+const unique=(parts,key)=>[...new Set(parts.flatMap(p=>Array.isArray(p[key])?p[key]:[p[key]]).filter(v=>v!==undefined&&v!==null&&v!==''))].sort((a,b)=>typeof a==='number'?a-b:String(a).localeCompare(String(b)));
+function facts(p){return [p.technology,...p.controllers,...p.interfaces,p.diagonalInches!=null?p.diagonalInches+' in':'',p.resolution].filter(Boolean);}
+
+export default function MakersView({catalog,query,setQuery,openBoard,SourceLink}){
+ const parts=catalog.makerParts||[];
+ const [filters,setFilters]=useState({}),[limit,setLimit]=useState(30);
+ const [selected,setSelected]=useState(()=>parts.find(p=>p.id===new URLSearchParams(location.search).get('part'))||null);
+ const matches=useMemo(()=>searchMakerParts(parts,{...filters,query}),[parts,filters,query]);
+ const suggestions=useMemo(()=>matches.length?[]:makerSuggestions(parts,query),[parts,query,matches.length]);
+ useEffect(()=>setLimit(30),[filters,query]);
+ function pick(p){setSelected(p);if(webEdition){const u=new URL(location.href);u.searchParams.set('tab','makers');if(p)u.searchParams.set('part',p.id);else u.searchParams.delete('part');history.replaceState(null,'',u);}}
+ const set=(key,value)=>setFilters(s=>({...s,[key]:value}));
+ const controls=[['Manufacturer','brand',unique(parts,'brand')],['Display technology','technology',unique(parts,'technology')],['Interface','interface',unique(parts,'interfaces')],['Display size (inches)','size',unique(parts,'diagonalInches')]];
+ return <div className="makers-page">
+  <section className="makers-hero"><div><div className="eyebrow"><span className="status-square"/>THE MAKER'S PARTS DESK</div><h1>Find the part.<br/>Understand the pins<span className="lime-period">.</span></h1><p>Displays, sensors, buttons and the modules between them. Start with the markings on your part, then match its manufacturer and revision.</p><div className="maker-examples">{['OLED','ST7789','BME280','KY-004','relay'].map(q=><button key={q} onClick={()=>{setFilters({});setQuery(q);}}>{q}<ArrowUpRight size={13}/></button>)}</div></div><div className="maker-coverage"><Monitor size={30}/><span>GROWING REFERENCE COLLECTION</span><strong>{parts.length.toLocaleString()}</strong><p>product, family & source records</p><dl><dt>Manufacturer documents recorded</dt><dd>{catalog.stats.makerDocumented}</dd><dt>Generic families to identify</dt><dd>{catalog.stats.makerGenericFamilies}</dd></dl></div></section>
+  <section className="maker-library"><div className="section-heading"><div><div className="eyebrow">SEARCH THE COMPONENT, NOT JUST THE BOARD</div><h2>Displays & modules</h2></div><span className="tag-outline">FIRST EDITION / 2026</span></div>
+   <div className="maker-categories" aria-label="Maker categories">{['',...unique(parts,'category')].map(cat=><button key={cat} aria-pressed={(filters.category||'')===cat} onClick={()=>set('category',cat)}>{cat||'All parts'}<span>{parts.filter(p=>!cat||p.category===cat).length}</span></button>)}</div>
+   <div className="maker-filter-grid">{controls.map(([label,key,options])=><label key={key}><span>{label}</span><select aria-label={'Maker '+label.toLowerCase()} value={filters[key]||''} onChange={e=>set(key,e.target.value)}><option value="">All recorded values</option>{options.map(o=><option key={o} value={o}>{o}</option>)}</select></label>)}</div>
+   <div className="maker-options"><label><input type="checkbox" checked={!!filters.documentedOnly} onChange={e=>set('documentedOnly',e.target.checked)}/>Manufacturer documents recorded</label><button className="text-link" onClick={()=>{setFilters({});setQuery('');}}><SlidersHorizontal size={14}/>Reset search & filters</button></div>
+   <p className="search-hint">Try a controller, function, exact size or resolution. “I²C” and “IIC” match I2C; “e-ink” matches e-paper. Unknown specifications are excluded when you filter by them.</p>
+   <div className="result-toolbar"><span role="status"><b>{matches.length.toLocaleString()}</b> maker records{query&&<> matching <strong>“{query}”</strong></>}</span><span>Products, families and review tasks are labeled separately.</span></div>
+   {matches.length?<div className="maker-grid">{matches.slice(0,limit).map(p=><article key={p.id} className="maker-card"><div className="maker-card-top"><span>{p.category}</span><span className={'maker-record-kind '+(p.identityKind==='generic-family'?'needs-id':'')}>{kinds[p.identityKind]}</span></div><div className="card-brand">{p.brand}</div><h3><button onClick={()=>pick(p)}>{p.name}<ArrowUpRight size={16}/></button></h3><div className="maker-facts">{facts(p).map((fact,i)=><span key={i}>{fact}</span>)}</div><div className="maker-card-bottom"><span>{p.documentationStatus}</span><button onClick={()=>pick(p)} aria-label={'Open maker record '+p.name}>Details & sources<ArrowUpRight size={14}/></button></div></article>)}</div>:<div className="empty-state"><Search size={30}/><h3>No matching maker records yet.</h3><p>Try fewer terms or clear a filter. This collection is growing; a missing result does not establish that a part does not exist.</p>{suggestions.length>0&&<div className="maker-examples"><span>Similar recorded codes:</span>{suggestions.map(s=><button key={s} onClick={()=>setQuery(s)}>{s}</button>)}</div>}</div>}
+   {matches.length>limit&&<div className="load-more"><button className="secondary-button" onClick={()=>setLimit(n=>n+30)}>Show 30 more</button><span>Showing {limit} of {matches.length}</span></div>}
+  </section>
+  <aside className="maker-method"><Layers size={22}/><div><h3>A useful reference starts with the exact hardware.</h3><p>Records connect to their original sources. Generic names may cover different pin orders and voltage circuits. A document or pin-label list is not a verified physical pinout; missing facts stay visible while each variant is reviewed.</p><SourceLink url="https://github.com/valleytechsolutions/black-wire-pinouts/blob/main/docs/MAKER_ROADMAP.md">Coverage roadmap & contribution process</SourceLink></div></aside>
+  {selected&&<MakerDialog part={selected} catalog={catalog} close={()=>pick(null)} openBoard={b=>{pick(null);openBoard(b);}} SourceLink={SourceLink}/>}
+ </div>;
+}
+
+function MakerDialog({part:p,catalog,close,openBoard,SourceLink}){
+ const ref=useRef(null);
+ useEffect(()=>{const dialog=ref.current;dialog.showModal();return()=>dialog.close();},[]);
+ const linked=catalog.boards.filter(b=>p.boardIds.includes(b.id)&&b.assets.length);
+ const url=new URL(location.href);url.search='';url.searchParams.set('tab','makers');url.searchParams.set('part',p.id);
+ return <dialog className="maker-dialog" ref={ref} aria-labelledby="maker-detail-title" onCancel={e=>{e.preventDefault();close();}} onClick={e=>{if(e.target===ref.current)close();}}><div className="maker-dialog-inner"><header><span className="eyebrow">{p.category} / {kinds[p.identityKind]}</span><button className="icon-button" aria-label="Close maker record" onClick={close}><X size={20}/></button></header><div className="card-brand">{p.brand}</div><h2 id="maker-detail-title">{p.name}</h2><div className="maker-facts">{facts(p).map((f,i)=><span key={i}>{f}</span>)}</div><dl className="maker-detail-facts"><dt>Documentation</dt><dd>{p.documentationStatus}</dd><dt>Exact PCB revision</dt><dd>{p.revision}</dd><dt>Interface</dt><dd>{p.interfaces.join(' / ')||'Not recorded'}</dd><dt>Controller</dt><dd>{p.controllers.join(' / ')||'Not recorded'}</dd><dt>Physical pinout</dt><dd>No complete pinout approved in this intake</dd></dl>
+  {p.pinLabels.length>0&&<section><h3>Documented pin labels</h3><p>Labels only; this is not the physical order or a wiring diagram.</p><div className="maker-pin-labels">{p.pinLabels.map(label=><code key={label}>{label}</code>)}</div></section>}
+  <section><h3>Before connecting</h3>{p.notes.map((note,i)=><p key={i}>{note}</p>)}<p>Power input, GPIO logic voltage and current limits need separate confirmation. Sharing a controller name does not establish board compatibility.</p></section>
+  {linked.length>0&&<section><h3>Existing reference files</h3>{linked.map(b=><button key={b.id} className="secondary-button" onClick={()=>openBoard(b)}><BookOpen size={16}/>{b.name} · {b.assets.length} files</button>)}</section>}
+  <section><h3>Source evidence</h3>{p.sources.length?p.sources.map((s,i)=><div className="maker-source" key={i}><SourceLink url={s.url}>{s.title}</SourceLink><span>{s.locator} · checked {s.checked}</span>{s.sha256&&<details><summary>Source fingerprint</summary><code>SHA-256 {s.sha256}</code></details>}</div>):<p>Exact manufacturer documentation has not been recorded for this family. Identify your module before selecting a source.</p>}</section>
+  {webEdition&&<a className="text-link" href={url.href}>Link to this record<ExternalLink size={14}/></a>}
+ </div></dialog>;
+}

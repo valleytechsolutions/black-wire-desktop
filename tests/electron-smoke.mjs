@@ -55,6 +55,16 @@ try{
  await page.getByText('Original guide material — CC BY 4.0',{exact:true}).click();
  await expect(page.locator('.license-notices pre').nth(1)).toContainText('Creative Commons Attribution 4.0 International Public License');
  await page.screenshot({path:path.join(qa,'native-licenses.png')});
+ await page.getByRole('button',{name:/Displays & modules/}).click();
+ await page.getByRole('textbox',{name:'Search boards and references'}).fill('BME280');
+ await expect(page.locator('.maker-card').first()).toContainText('BME280');
+ await page.locator('.maker-card').filter({hasText:'Adafruit'}).getByRole('button',{name:/Open maker record/}).first().click();
+ await expect(page.getByRole('dialog')).toContainText('Documented pin labels');
+ await page.keyboard.press('Escape');
+ await page.getByRole('button',{name:'Reset search & filters'}).click();
+ await page.evaluate(()=>window.scrollTo(0,0));
+ await page.screenshot({path:path.join(qa,'native-makers.png')});
+ expect(catalog.stats.makerRecords).toBe(457);
  expect(errors).toEqual([]);
  const report={packaged,catalog:catalog.stats,pdf:pdfBoard.name,checks:['custom protocol','renderer isolation','PDF delivery','offline image decoding','path whitelist','native save original hash','saved boards persistence','PDF viewer'],qa,passed:true};
  await fs.writeFile(path.join(qa,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

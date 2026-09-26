@@ -13,5 +13,15 @@ for(const rel of manifest){const resolved=path.resolve(root,rel);if(!resolved.st
 for(const [rel,hash] of media){const actual=crypto.createHash('sha256').update(await fs.readFile(path.join(root,rel))).digest('hex');if(actual!==hash)errors.push('Media hash mismatch: '+rel);}
 for(const p of catalog.power){for(const id of p.boardIds)if(!boards.has(id))errors.push('Unknown power board: '+id);for(const o of p.observations)if(!p.sources[o.source])errors.push('Missing observation source: '+p.id);}
 if(catalog.power.find(p=>p.id==='espc5')?.boardIds.join()!=='espressif-esp32-esp32-c5-devkitc-1-v1-2')errors.push('ESP32-C5 power profile must match revision 1.2 exactly.');
+const makerIds=new Set();
+for(const p of catalog.makerParts||[]){
+ if(makerIds.has(p.id))errors.push('Repeated maker ID: '+p.id);makerIds.add(p.id);
+ for(const id of p.boardIds)if(!boards.has(id))errors.push('Unknown linked maker reference: '+id);
+ if(p.completePhysicalPinout)errors.push('Maker intake cannot approve complete physical pinouts: '+p.id);
+ if(p.documentationStatus==='Manufacturer documentation recorded'&&(!p.sources.length||p.sources.some(s=>!/^https:\/\//.test(s.url)||!/^[a-f0-9]{64}$/.test(s.sha256||''))))errors.push('Missing maker evidence: '+p.id);
+}
+if(makerIds.size!==catalog.stats.makerRecords)errors.push('Maker record count differs from catalog statistics.');
+const makerFile=JSON.parse(await fs.readFile(path.join(root,'maker-parts.json'),'utf8'));
+if(JSON.stringify(makerFile.parts)!==JSON.stringify(catalog.makerParts))errors.push('Maker data differs from catalog.');
 const report={checkedAt:new Date().toISOString(),root,manifestFiles:manifest.size,hashedMedia:media.size,referenceEntries:ids.size,pinouts:catalog.boards.flatMap(b=>b.assets).filter(a=>a.type==='pinout image').length,errors};
 await fs.mkdir('data/qa',{recursive:true});await fs.writeFile('data/qa/library-validation.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));if(errors.length)process.exitCode=1;

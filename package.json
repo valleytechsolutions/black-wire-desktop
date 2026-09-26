@@ -1,7 +1,7 @@
 {
   "name": "black-wire-technical-reference-guide",
   "productName": "Black Wire Technical Reference Guide",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An offline workbench for board pinouts, manufacturer references and power data.",
   "author": {
     "name": "Kal / Valleytech Solutions",
@@ -26,7 +26,8 @@
     "dist:signed:mac": "pnpm build && electron-builder --config electron-builder.signed.cjs --mac dmg zip --x64 --arm64",
     "build:web": "node scripts/build-web.mjs",
     "preview:web": "node scripts/preview-web.mjs",
-    "test:web": "node tests/web-smoke.mjs"
+    "test:web": "node tests/web-smoke.mjs",
+    "test:makers": "node tests/maker-web-smoke.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

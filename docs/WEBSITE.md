@@ -10,6 +10,12 @@ Menu label: **BWM-Technical Reference Guide**
 
 Published and checked on September 25, 2026. The guide is linked from the store navigation and footer. Cloudflare Pages hosts the browser application and reference files.
 
+## Maker update / 0.3.0
+
+The production guide now includes **Displays & modules**, with 457 intake records and 173 manufacturer documentation records. Collection snapshot: **2026.09.3**. Search accepts controller codes, function, resolution, exact display size and interface aliases. Source records distinguish documentation, missing review, generic families and existing file references.
+
+Deployment output: 6,278 files / 1,912,165,604 bytes. Largest asset remains 15,861,269 bytes. Production search, record links, images, PDF pagination, device filters and the Shopify iframe were verified, including a 390-pixel viewport. The packaged Windows app was also tested. The source artwork research cache and unfinished book PDF are excluded from the web bundle.
+
 ## How it fits into the store
 
 The Shopify page keeps the store's header, navigation and footer and embeds the browser guide in an iframe. An **Open the guide full screen** link provides more room on small displays and an alternative when a browser restricts embedded storage or downloads. A link in the main store menu points to this page. Products, cart and checkout continue through Shopify.
